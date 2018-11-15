@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    image: mysql/mysql-server:5.6
+    volumes: 
+      - ./backend/db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: api
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+
+  api:
+    build: ./backend/api
+    volumes: 
+      - ./backend/api:/var/www/html/
+    depends_on:
+       - db
+    restart: always
+    links:
+      - db:mysql
+    ports:
+      - "8000:80"
+
+volumes:
+    db_data:
