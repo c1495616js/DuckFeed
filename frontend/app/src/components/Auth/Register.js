@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Form, Segment, Button, Header, Message, Icon} from 'semantic-ui-react'
 import axios from 'axios';
-
+import qs from "qs";
 import { Link } from 'react-router-dom'
 
 
@@ -56,11 +56,24 @@ isPasswordValid = ({password, passwordConfirmation}) => {
     event.preventDefault();
     if(!this.isFormValid()) return
     this.setState({ errors: [], loading: true });
-    axios.post('http://localhost:8000/index.php/users/add',
-      {email: this.state.email, password: this.state.password}
-    ).then(createdUser => {
-        console.log(createdUser)
-        
+    axios.post('http://localhost:8000/index.php/users/signup',
+      qs.stringify({name: this.state.name, email: this.state.email, password: this.state.password})
+    )
+      .then(r => r.data)
+      .then(r => {
+        console.log(r)
+        if(r.error_code){
+          console.error(r.error_code);
+          const err = {"message" : r.error_code.join()};
+
+          this.setState({
+            errors: this.state.errors.concat(err),
+            loading: false
+          });
+        }else{
+          localStorage.setItem('ACCESS_TOKEN', r.token);
+          this.setState({ loading: false });
+        }
       })
       .catch(err => {
         console.error(err)
@@ -72,12 +85,7 @@ isPasswordValid = ({password, passwordConfirmation}) => {
     
   }
 
-  saveUser = createdUser => {
-  //  return this.state.userRef.child(createdUser.user.uid).set({
-  //     name: createdUser.user.displayName,
-  //     avatar: createdUser.user.photoURL
-  //   })
-  }
+  
 
   handleInputError = (errors, inputName) => {
     return errors.some(error => error.message.toLowerCase().includes(inputName))
@@ -86,7 +94,7 @@ isPasswordValid = ({password, passwordConfirmation}) => {
   };
 
   render() {
-    const { username, email, password, passwordConfirmation, errors, loading } = this.state;
+    const { name, email, password, passwordConfirmation, errors, loading } = this.state;
 
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
@@ -97,8 +105,8 @@ isPasswordValid = ({password, passwordConfirmation}) => {
           </Header>
           <Form size="large" onSubmit={this.handleSubmit}>
             <Segment stacked>
-              <Form.Input fluid name="username" icon="user" iconPosition="left"
-              placeholder="Username" onChange={this.handleChange} value={username} type="text"/>
+              <Form.Input fluid name="name" icon="user" iconPosition="left"
+              placeholder="Username" onChange={this.handleChange} value={name} type="text"/>
 
               <Form.Input fluid name="email" icon="mail" iconPosition="left"
                 className={this.handleInputError(errors, "email")}

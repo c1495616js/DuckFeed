@@ -5,6 +5,7 @@ import App from './components/App';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Spinner from './Spinner';
+import qs from 'qs';
 import axios from 'axios';
 import * as serviceWorker from './serviceWorker';
 import {
@@ -34,12 +35,29 @@ const store = createStore(rootReducers, composeWithDevTools());
 class Root extends React.Component {
   componentDidMount = () => {
     console.log(this.props.isLoading);
-    const TOKEN = localStorage.getItem('ACCESS_TOKEN');
-    if(TOKEN){
+    const token = localStorage.getItem('ACCESS_TOKEN');
+    
+    if(token){
       // this.props.setUser(user);
-      this.props.history.push('/');
+      axios.post('http://localhost:8000/index.php/users/check_token',
+        qs.stringify({token})
+      ).then(r => r.data)
+      .then(r => {
+        console.log(r)
+        if(r.valid){ 
+          console.log('user valid');
+          this.props.setUser(r.user);         
+          this.props.history.push('/');
+        }else{
+          this.props.history.push('/login');
+          localStorage.setItem('ACCESS_TOKEN', '');
+          this.props.clearUser();
+        }        
+      })
+      
     }else{
       this.props.history.push('/login');
+      localStorage.setItem('ACCESS_TOKEN', '');
       this.props.clearUser();
     }
   }
