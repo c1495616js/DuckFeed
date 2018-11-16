@@ -4,7 +4,7 @@ import './App.css';
 import { connect } from 'react-redux';
 
 import SidePanel from './SidePanel/SidePanel'
-
+import Dashboard from './Dashboard/Dashboard'
 
 const App = ({currentUser}) => (
   <Grid columns="equal" className="app" style={{background:'#eee'}}>
@@ -14,13 +14,10 @@ const App = ({currentUser}) => (
         currentUser={currentUser} 
       />
 
-    <Grid.Column style={{marginLeft:320}}>
-      <div>2</div>
+    <Grid.Column style={{marginLeft:250}}>
+      <Dashboard currentUser={currentUser}/>
     </Grid.Column>
     
-    <Grid.Column width={4}>
-      <div>3</div>
-    </Grid.Column>
     
   </Grid>
 )
