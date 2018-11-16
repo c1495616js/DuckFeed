@@ -127,7 +127,9 @@ class MY_Api_Controller extends MY_Base_Controller {
 	function __construct() {
 		parent::__construct();
 
-
+		header('Access-Control-Allow-Origin: *');
+		header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+		header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
 	}
 
 	public function get_member_city_district($member_id)
