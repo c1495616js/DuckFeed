@@ -28,4 +28,12 @@ CREATE TABLE `food` (
   `amount` double NOT NULL DEFAULT '0' COMMENT 'kg',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  `email` varchar(20) NOT NULL DEFAULT '',
+  `password` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```

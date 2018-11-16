@@ -9,21 +9,20 @@ import { DateTimeInput } from 'semantic-ui-calendar-react';
 
 const initFeedState = {
   /// basic
-  park: '',
-  // time: moment().format('MM/DD/YYYY HH:mm:ss'),
-  time: '',
-  numbers: 0,
+  park: 'Test Park',  
+  time: moment().format('DD/MM/YYYY HH:mm'),
+  numbers: 5,
   // food
-  name: '',
-  kind: '',
-  amount: 0,
+  name: 'food name',
+  kind: 'food kind',
+  amount: 2.5,
 }
 class FeedPanel extends Component {
   state = {
     
     user: this.props.currentUser,
     channels: [],
-    ...initFeedState,
+    ...Object.assign({}, initFeedState),
     modal: false,
     firstLoad: true
   }
@@ -46,39 +45,27 @@ class FeedPanel extends Component {
 
   addFeed = () => {
     const { park, time, numbers, name, kind, amount, user } = this.state;
-
-
+    
     const newFeed = {
       park,
-      time,
+      time: moment(time, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mm'),
       numbers,
       name,
       kind,
       amount,
       user_id: user.id
     }
-
-    axios.post('http://localhost:8000/index.php/add_feed',
+   
+    axios.post('http://localhost:8000/index.php/api/add_feed',
       qs.stringify(newFeed)
     ).then(()=>{
-          this.setState(initFeedState);
+          this.setState(Object.assign({}, initFeedState));
           this.closeModal();
           console.log('feed added')
         })
-        .catch( err =>{
-          console.error(err);
-        })
-    // channelsRef
-    //   .child(key)
-    //   .update(newChannel)
-    //   .then(()=>{
-    //     this.setState({channelName:'', channelDetails: ''});
-    //     this.closeModal();
-    //     console.log('channel added')
-    //   })
-    //   .catch( err =>{
-    //     console.error(err);
-    //   })
+    .catch( err =>{
+      console.error(err);
+    })
   }
 
   handleSubmit = event => {
@@ -132,15 +119,16 @@ class FeedPanel extends Component {
         {/* Add Channel Modal */}
 
         <Modal basic open={modal} onClose={this.closeModal}>
-          <Modal.Header>Add Feed</Modal.Header>
+          <Modal.Header><Icon name="paw" /> Add Feed</Modal.Header>
           <Modal.Content>
             <Form onSubmit={this.handleSubmit}>
-              <p>Basic Information</p>
+              <Icon name="book" /><p style={{display:'inline-block'}}>Basic Information</p>
               <Form.Field>
                 <Input 
                   fluid
                   label="Park Name"
                   name="park"
+                  value={this.state.park}
                   onChange={this.handleChange}
                 />                
               </Form.Field>
@@ -168,12 +156,13 @@ class FeedPanel extends Component {
                 />                
               </Form.Field>
 
-              <p>Food Information</p>
+              <Icon name="food" /><p style={{display:'inline-block'}}>Food Information</p>
               <Form.Field>
                 <Input 
                   fluid
                   label="Food Name"
                   name="name"
+                  value={this.state.name}
                   onChange={this.handleChange}
                 />                
               </Form.Field>
@@ -183,6 +172,7 @@ class FeedPanel extends Component {
                   fluid
                   label="Food Kind"
                   name="kind"
+                  value={this.state.kind}
                   onChange={this.handleChange}
                 />                
               </Form.Field>

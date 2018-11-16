@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Grid, Header, Icon, Dropdown, Image } from 'semantic-ui-react'
+import { Grid, Header, Icon, Dropdown } from 'semantic-ui-react'
 
 
 class UserPanel extends Component {
@@ -56,8 +56,7 @@ class UserPanel extends Component {
               <Dropdown 
                 trigger={
                 <span>
-                
-                {user.name}
+                  {user.name}
                 </span>} 
                 options={this.dropdownOptions()} />              
             </Header>

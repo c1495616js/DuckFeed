@@ -9,7 +9,7 @@ class Api extends MY_Api_Controller {
 	}
 
 	// user add data
-	public function add()
+	public function add_feed()
 	{
 		$res = array();
 		$error_code = array();
@@ -17,7 +17,8 @@ class Api extends MY_Api_Controller {
 		$feed_data = $this -> get_posts(array(
 			"park",
 			"numbers",
-			"time"
+			"time",
+			"user_id"
 		));
 
 		$food_data = $this -> get_posts(array(
