@@ -42,9 +42,17 @@ class Feed_dao extends MY_Model {
 		}
 
 			// food
+			// what food
 		if(!empty($data['what_food'])){
 			$this -> db -> select('SUM(fo.amount) as total_amount', false);
 			$this -> db -> group_by('fo.name');
+			$this -> db -> order_by('total_amount', 'desc');		
+		}
+
+		// what kind of food
+		if(!empty($data['kind_food'])){
+			$this -> db -> select('SUM(fo.amount) as total_amount', false);
+			$this -> db -> group_by('fo.kind');
 			$this -> db -> order_by('total_amount', 'desc');		
 		}
 		
