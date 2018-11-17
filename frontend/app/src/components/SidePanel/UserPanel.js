@@ -30,8 +30,9 @@ class UserPanel extends Component {
     }
   ]
 
-  handleSignout = () => {    
-    localStorage.setItem('ACCESS_TOKEN', '');    
+  handleSignout = () => {         
+    localStorage.setItem('ACCESS_TOKEN', '');
+    window.location.reload();    
   }
 
   render() {

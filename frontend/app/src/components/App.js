@@ -11,7 +11,7 @@ const App = ({currentUser}) => (
   
     <SidePanel 
         key={currentUser && currentUser.id}
-        currentUser={currentUser} 
+        currentUser={currentUser}        
       />
 
     <Grid.Column style={{marginLeft:250}}>

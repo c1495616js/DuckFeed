@@ -5,7 +5,7 @@ import FeedPanel from './FeedPanel';
 export default class SidePanel extends Component {
   render() {
     const {currentUser} = this.props;
-    console.log('sfsf:', this.props)
+    
     return (
       <Menu
         size="large"
@@ -16,7 +16,7 @@ export default class SidePanel extends Component {
       >
         
         <UserPanel currentUser={currentUser} />
-        <FeedPanel currentUser={currentUser}/>
+        <FeedPanel currentUser={currentUser} />
       </Menu>
     )
   }
