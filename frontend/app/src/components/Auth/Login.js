@@ -39,8 +39,11 @@ export default class Login extends Component {
             loading: false
           });
         }else{
+          console.log('login succeed');
           localStorage.setItem('ACCESS_TOKEN', r.token);
           this.setState({ loading: false });
+          this.props.setUser(r.user);
+          this.props.history.push('/');          
         }
       })
       .catch(err => {
@@ -60,7 +63,7 @@ export default class Login extends Component {
       : "";
   };
 
-  render() {
+  render() {    
     const { email, password, errors, loading } = this.state;
 
     return (

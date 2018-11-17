@@ -33,6 +33,9 @@ class Users extends MY_Api_Controller {
       $user = $this -> dao -> find_by('email', $data['email']);
       if(empty($user)){
         $user_id = $this -> dao -> insert($data);
+        $user = $this -> dao -> find_by_id($user_id);
+        unset($user -> password);
+        $res['user'] = $user;
         $res['token'] = jwt_helper::create($user_id);;			
       }else{
         $error_code[] = 'email_exist';
@@ -59,6 +62,9 @@ class Users extends MY_Api_Controller {
         // check if password correct
         if($user -> password == $password){
           $user_id = $user -> id;
+          $user = $this -> dao -> find_by_id($user_id);
+          unset($user -> password);
+          $res['user'] = $user;
           $res['token'] = jwt_helper::create($user_id);
         }
       }else{

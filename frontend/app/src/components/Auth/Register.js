@@ -12,8 +12,7 @@ export default class Register extends Component {
     password: '',
     passwordConfirmation: '',
     errors: [],
-    loading: false,
-    // userRef: firebase.database().ref('users')
+    loading: false,    
   };
 
   isFormValid = () => {
@@ -72,6 +71,8 @@ isPasswordValid = ({password, passwordConfirmation}) => {
         }else{
           localStorage.setItem('ACCESS_TOKEN', r.token);
           this.setState({ loading: false });
+          this.props.setUser(r.user);
+          this.props.history.push('/')
         }
       })
       .catch(err => {
@@ -92,7 +93,7 @@ isPasswordValid = ({password, passwordConfirmation}) => {
       : "";
   };
 
-  render() {
+  render() {    
     const { name, email, password, passwordConfirmation, errors, loading } = this.state;
 
     return (

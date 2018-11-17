@@ -66,8 +66,8 @@ class Root extends React.Component {
       this.props.isLoading ? <Spinner/> : (
         <Switch >
           <Route exact path = "/" component = {App} /> 
-          <Route path = "/login" component = {Login}/> 
-          <Route path = "/register" component = {Register}/> 
+          <Route path = "/login"  render={(props) => <Login {...props} setUser={this.props.setUser}/>} />
+          <Route path = "/register" render={(props) => <Register {...props} setUser={this.props.setUser}/>}/> 
         </Switch>
       )
 

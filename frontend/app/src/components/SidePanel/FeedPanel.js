@@ -4,7 +4,7 @@ import moment from 'moment';
 import axios from 'axios';
 import qs from 'qs';
 
-import { Menu, Icon, Modal, Form, Input, Button } from 'semantic-ui-react'
+import { Menu, Icon, Modal, Form, Input, Button, Label } from 'semantic-ui-react'
 import { DateTimeInput } from 'semantic-ui-calendar-react';
 
 const initFeedState = {
@@ -124,7 +124,14 @@ class FeedPanel extends Component {
           <Modal.Header><Icon name="paw" /> Add Feed</Modal.Header>
           <Modal.Content>
             <Form onSubmit={this.handleSubmit}>
-              <Icon name="book" /><p style={{display:'inline-block'}}>Basic Information</p>
+              
+              <div style={{margin:'15px 0'}}>              
+                <Label color='teal' tag>
+                  <Icon name="book" /><span>Basic Information</span>
+                </Label>
+              </div>                 
+            
+              
               <Form.Field>
                 <Input 
                   fluid
@@ -158,7 +165,14 @@ class FeedPanel extends Component {
                 />                
               </Form.Field>
 
-              <Icon name="food" /><p style={{display:'inline-block'}}>Food Information</p>
+              {/* */}
+
+              <div style={{margin:'15px 0'}}>
+                <Label  color='red' tag>
+                <Icon name="food" /><span>Food Information</span>
+                </Label>
+              </div>   
+              
               <Form.Field>
                 <Input 
                   fluid
