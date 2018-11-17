@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Form, Segment, Button, Header, Message, Icon} from 'semantic-ui-react'
 
 import axios from 'axios';
+import qs from 'qs';
 import { Link } from 'react-router-dom'
 
 
@@ -24,9 +25,23 @@ export default class Login extends Component {
     event.preventDefault();
     if(!this.isFormValid(this.state)) return
     this.setState({ errors: [], loading: true });
-    axios.get(`http://localhost:8000/index.php/users`)
-      .then(signedInUser => {
-        console.log(signedInUser)
+    axios.post(`http://localhost:8000/index.php/users/login`,
+      qs.stringify({email: this.state.email, password: this.state.password})
+      )
+      .then(r => r.data)
+      .then(r => {        
+        if(r.error_code){
+          console.error(r.error_code);
+          const err = {"message" : r.error_code.join()};
+
+          this.setState({
+            errors: this.state.errors.concat(err),
+            loading: false
+          });
+        }else{
+          localStorage.setItem('ACCESS_TOKEN', r.token);
+          this.setState({ loading: false });
+        }
       })
       .catch(err => {
         console.error(err);

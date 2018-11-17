@@ -13,22 +13,24 @@ export default class DataTable extends Component {
   componentDidMount() {
     this.fetchData();
   }
-
+  
   fetchData = () => {
     axios.post('http://localhost:8000/index.php/api/list_feed',
       qs.stringify({page: this.state.page})
     ).then(r => r.data)
-    .then(({list}) => {
-      console.log('feed list:', list)
+    .then(({list}) => {      
       this.setState({data: list});
     })
   }
 
+  renewData = () => {
+    this.setState({data: null}, this.fetchData)
+  }
+
   // Table Body
   displayTableBody = () => {
-    const { data } = this.state;
-    console.log('dis:', data)
-    return !data ? (<Table.Row> <Table.Cell colSpan='6'>Processing...</Table.Cell></Table.Row>) : 
+    const { data } = this.state;    
+    return !data ? (<Table.Row><Table.Cell colSpan='6'>Processing...</Table.Cell></Table.Row>) : 
       data.map(r => {
        return (
           <Table.Row key={r.id}>
@@ -57,7 +59,7 @@ export default class DataTable extends Component {
   }
 
   changePage = (page) => {
-    this.setState({page}, this.fetchData);
+    this.setState({page}, this.renewData);
   }
 
   render() {

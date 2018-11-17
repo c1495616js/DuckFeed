@@ -33,8 +33,7 @@ import { setUser, clearUser } from './actions';
 
 const store = createStore(rootReducers, composeWithDevTools());
 class Root extends React.Component {
-  componentDidMount = () => {
-    console.log(this.props.isLoading);
+  componentDidMount = () => {    
     const token = localStorage.getItem('ACCESS_TOKEN');
     
     if(token){
@@ -54,15 +53,13 @@ class Root extends React.Component {
           this.props.clearUser();
         }        
       })
-      
     }else{
       this.props.history.push('/login');
       localStorage.setItem('ACCESS_TOKEN', '');
       this.props.clearUser();
     }
   }
-
-  
+ 
   render() {
     return (
 

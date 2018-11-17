@@ -30,11 +30,8 @@ class UserPanel extends Component {
     }
   ]
 
-  handleSignout = () => {
-    // firebase
-    //   .auth()
-    //   .signOut()
-    //   .then(() => console.log('signed out!'))
+  handleSignout = () => {    
+    localStorage.setItem('ACCESS_TOKEN', '');    
   }
 
   render() {
@@ -58,7 +55,8 @@ class UserPanel extends Component {
                 <span>
                   {user.name}
                 </span>} 
-                options={this.dropdownOptions()} />              
+                options={this.dropdownOptions()} 
+              />              
             </Header>
           </Grid.Column>
         </Grid>

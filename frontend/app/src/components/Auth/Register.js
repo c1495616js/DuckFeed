@@ -60,8 +60,7 @@ isPasswordValid = ({password, passwordConfirmation}) => {
       qs.stringify({name: this.state.name, email: this.state.email, password: this.state.password})
     )
       .then(r => r.data)
-      .then(r => {
-        console.log(r)
+      .then(r => {        
         if(r.error_code){
           console.error(r.error_code);
           const err = {"message" : r.error_code.join()};

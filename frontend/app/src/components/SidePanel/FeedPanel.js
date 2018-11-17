@@ -182,7 +182,7 @@ class FeedPanel extends Component {
               <Form.Field>
                 <Input 
                   fluid
-                  label="Food Amount"
+                  label="Food Amount (kg)"
                   name="amount"
                   value={this.state.amount}
                   onChange={this.handleChange}
