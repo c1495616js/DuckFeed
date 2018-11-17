@@ -1,87 +1,108 @@
 import React, { Component } from 'react'
 import { Icon, Table, Menu } from 'semantic-ui-react'
 
+import axios from 'axios';
+import qs from 'qs';
 export default class DataTable extends Component {
+
+  state = {
+    data: null,
+    page: 0
+  }
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData = () => {
+    axios.post('http://localhost:8000/index.php/api/list_feed',
+      qs.stringify({page: this.state.page})
+    ).then(r => r.data)
+    .then(({list}) => {
+      console.log('feed list:', list)
+      this.setState({data: list});
+    })
+  }
+
+  // Table Body
+  displayTableBody = () => {
+    const { data } = this.state;
+    console.log('dis:', data)
+    return !data ? (<Table.Row> <Table.Cell colSpan='6'>Processing...</Table.Cell></Table.Row>) : 
+      data.map(r => {
+       return (
+          <Table.Row key={r.id}>
+            <Table.Cell>{r.park}</Table.Cell>
+            <Table.Cell>{r.time}</Table.Cell>
+            <Table.Cell textAlign='right'>{r.numbers}</Table.Cell>
+            <Table.Cell textAlign='center'>{r.name}</Table.Cell>
+            <Table.Cell textAlign='center'>{r.kind}</Table.Cell>
+            <Table.Cell textAlign='center'>{r.amount}</Table.Cell>                        
+          </Table.Row>
+       )
+      })
+    
+  }
+
+  // Pages
+  displayPages = () => {
+    return (
+      <React.Fragment>
+        <Menu.Item as='a'>1</Menu.Item>
+        <Menu.Item as='a' onClick={() => this.changePage(1)}>2</Menu.Item>
+        <Menu.Item as='a'>3</Menu.Item>
+        <Menu.Item as='a'>4</Menu.Item>
+      </React.Fragment>
+    )
+  }
+
+  changePage = (page) => {
+    this.setState({page}, this.fetchData);
+  }
+
   render() {
     
     return (
       <div>
       <Table celled structured>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell rowSpan='2'>Where</Table.HeaderCell>
-          <Table.HeaderCell rowSpan='2'>Time</Table.HeaderCell>
-          <Table.HeaderCell rowSpan='2'>Numbers</Table.HeaderCell>
-          <Table.HeaderCell colSpan='3'>Food</Table.HeaderCell>
-        </Table.Row>
-        <Table.Row>
-          <Table.HeaderCell>Name</Table.HeaderCell>
-          <Table.HeaderCell>Kind</Table.HeaderCell>
-          <Table.HeaderCell>Amount</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-  
-      <Table.Body>
-        <Table.Row>
-          <Table.Cell>Alpha Team</Table.Cell>
-          <Table.Cell>Project 1</Table.Cell>
-          <Table.Cell textAlign='right'>2</Table.Cell>
-          <Table.Cell textAlign='center'>
-            <Icon color='green' name='checkmark' size='large' />
-          </Table.Cell>
-          <Table.Cell />
-          <Table.Cell />
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell rowSpan='3'>Beta Team</Table.Cell>
-          <Table.Cell>Project 1</Table.Cell>
-          <Table.Cell textAlign='right'>52</Table.Cell>
-          <Table.Cell textAlign='center'>
-            <Icon color='green' name='checkmark' size='large' />
-          </Table.Cell>
-          <Table.Cell />
-          <Table.Cell />
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Project 2</Table.Cell>
-          <Table.Cell textAlign='right'>12</Table.Cell>
-          <Table.Cell />
-          <Table.Cell textAlign='center'>
-            <Icon color='green' name='checkmark' size='large' />
-          </Table.Cell>
-          <Table.Cell />
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Project 3</Table.Cell>
-          <Table.Cell textAlign='right'>21</Table.Cell>
-          <Table.Cell textAlign='center'>
-            <Icon color='green' name='checkmark' size='large' />
-          </Table.Cell>
-          <Table.Cell />
-          <Table.Cell />
-        </Table.Row>
-      </Table.Body>
+
+      {/* Header */}
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell rowSpan='2'>Where</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2'>Time</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2'>Numbers</Table.HeaderCell>
+            <Table.HeaderCell colSpan='3'>Food</Table.HeaderCell>
+          </Table.Row>
+          <Table.Row>
+            <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Kind</Table.HeaderCell>
+            <Table.HeaderCell>Amount (kg)</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+      
+      {/* Body */}
+        <Table.Body>
+          {this.displayTableBody()}
+        </Table.Body>
 
       { /* footer */}
 
-      <Table.Footer>
-      <Table.Row>
-        <Table.HeaderCell colSpan='6'>
-          <Menu floated='right' pagination>
-            <Menu.Item as='a' icon>
-              <Icon name='chevron left' />
-            </Menu.Item>
-            <Menu.Item as='a'>1</Menu.Item>
-            <Menu.Item as='a'>2</Menu.Item>
-            <Menu.Item as='a'>3</Menu.Item>
-            <Menu.Item as='a'>4</Menu.Item>
-            <Menu.Item as='a' icon>
-              <Icon name='chevron right' />
-            </Menu.Item>
-          </Menu>
-        </Table.HeaderCell>
-      </Table.Row>
-    </Table.Footer>
+        <Table.Footer>
+          <Table.Row>
+            <Table.HeaderCell colSpan='6'>
+              <Menu floated='right' pagination>
+                <Menu.Item as='a' icon>
+                  <Icon name='chevron left' />
+                </Menu.Item>
+                {this.displayPages()}
+                <Menu.Item as='a' icon>
+                  <Icon name='chevron right' />
+                </Menu.Item>
+              </Menu>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
 
     </Table>
       </div>

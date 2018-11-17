@@ -52,4 +52,32 @@ class Api extends MY_Api_Controller {
 	}
 
 
+	// get feed data
+	public function list_feed() {
+		$res = array();		
+		$res['success'] = true;
+
+		$data = $this -> get_posts(array(
+			// later
+			"user_id",
+			"page_disabled"
+		));
+
+		$limit = $this -> get_post('limit');
+		if(empty($limit)){
+			$limit = 10;
+		}
+		$data['limit'] = $limit;
+
+		$page = $this -> get_post('page');
+		if(empty($page)){
+			$page = 0;
+		}
+		$data['page'] = $page;
+
+		$list = $this -> feed_dao -> query_all($data);
+		$res['list'] = $list;
+		$this -> to_json($res);
+	}
+
 }

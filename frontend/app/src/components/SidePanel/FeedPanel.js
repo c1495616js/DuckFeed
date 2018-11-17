@@ -21,27 +21,29 @@ class FeedPanel extends Component {
   state = {
     
     user: this.props.currentUser,
-    channels: [],
+    feeds: [],
     ...Object.assign({}, initFeedState),
     modal: false,
     firstLoad: true
   }
 
   componentDidMount(){
-    this.addListeners()
+    this.fetchMyFeeds()
   }
 
-  componentWillUnmount(){
-    this.removeListeners()
+
+  fetchMyFeeds = () => {
+    axios.post('http://localhost:8000/index.php/api/list_feed',
+      qs.stringify({page_disabled:true, user_id: this.state.user.id})
+    ).then(r => r.data)
+    .then(({ list })=>{
+      this.setState({ feeds: list });          
+    })
+    .catch( err =>{
+      console.error(err);
+    })
   }
 
-  addListeners = () => {
-    
-  }
-
-  removeListeners = () => {
-    
-  }
 
   addFeed = () => {
     const { park, time, numbers, name, kind, amount, user } = this.state;
@@ -59,7 +61,7 @@ class FeedPanel extends Component {
     axios.post('http://localhost:8000/index.php/api/add_feed',
       qs.stringify(newFeed)
     ).then(()=>{
-          this.setState(Object.assign({}, initFeedState));
+          this.setState(Object.assign({}, initFeedState), this.fetchMyFeeds);
           this.closeModal();
           console.log('feed added')
         })
@@ -103,7 +105,7 @@ class FeedPanel extends Component {
   }
 
   render() {
-    const { channels, modal } = this.state;
+    const { feeds, modal } = this.state;
 
     return (
       <React.Fragment>
@@ -112,7 +114,7 @@ class FeedPanel extends Component {
             <span>
               <Icon name="cloud upload" /> Feeds
             </span>{" "}
-            ({channels.length}) <Icon name="add" onClick={this.opneModal}/>
+            ({feeds.length}) <Icon name="add" onClick={this.opneModal}/>
           </Menu.Item>          
         </Menu.Menu> 
         
