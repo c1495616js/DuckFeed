@@ -40,6 +40,13 @@ class Feed_dao extends MY_Model {
 		if(!empty($data['user_id'])){
 			$this -> db -> where("_m.user_id", $data['user_id']);
 		}
+
+			// food
+		if(!empty($data['what_food'])){
+			$this -> db -> select('SUM(fo.amount) as total_amount', false);
+			$this -> db -> group_by('fo.name');
+			$this -> db -> order_by('total_amount', 'desc');		
+		}
 		
 	}
 

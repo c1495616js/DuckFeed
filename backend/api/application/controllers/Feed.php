@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Api extends MY_Api_Controller {
+class Feed extends MY_Api_Controller {
 
 	function __construct() {
 		parent::__construct();
-		$this -> load -> model('Feed_dao','feed_dao');
+		$this -> load -> model('Feed_dao','dao');
 		$this -> load -> model('Food_dao','food_dao');
 	}
 
@@ -12,6 +12,7 @@ class Api extends MY_Api_Controller {
 	public function add_feed()
 	{
 		$res = array();
+		$res['success'] = true;
 		$error_code = array();
 
 		$feed_data = $this -> get_posts(array(
@@ -42,10 +43,9 @@ class Api extends MY_Api_Controller {
 		if(count($error_code) > 0){
 			$res['error_code'] = $error_code;
 		}else{
-			$feed_id = $this -> feed_dao -> insert($feed_data);
+			$feed_id = $this -> dao -> insert($feed_data);
 			$food_data['feed_id'] = $feed_id;
-			$this -> food_dao -> insert($food_data);
-			$res['success'] = true;
+			$this -> food_dao -> insert($food_data);			
 		}
 
 		$this -> to_json($res);
@@ -60,7 +60,10 @@ class Api extends MY_Api_Controller {
 		$data = $this -> get_posts(array(
 			// later
 			"user_id",
-			"page_disabled"
+			"page_disabled",
+			// food
+			"what_food",
+			"kind_food"
 		));
 
 		$limit = $this -> get_post('limit');
@@ -75,7 +78,7 @@ class Api extends MY_Api_Controller {
 		}
 		$data['page'] = $page;
 
-		$list = $this -> feed_dao -> query_all($data);
+		$list = $this -> dao -> query_all($data);
 		$res['list'] = $list;
 		$this -> to_json($res);
 	}

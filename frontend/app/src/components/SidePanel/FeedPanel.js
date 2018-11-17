@@ -58,7 +58,7 @@ class FeedPanel extends Component {
       user_id: user.id
     }
    
-    axios.post('http://localhost:8000/index.php/api/add_feed',
+    axios.post('http://localhost:8000/index.php/feed/add_feed',
       qs.stringify(newFeed)
     ).then(()=>{
           this.setState(Object.assign({}, initFeedState), this.fetchMyFeeds);
