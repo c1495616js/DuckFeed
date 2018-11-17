@@ -65,48 +65,49 @@ export default class DataTable extends Component {
   render() {
     
     return (
-      <div>
-      <Table celled structured>
+      <div className="dataTable">
+          <h1>Data Table</h1>
+          <Table celled structured>
 
-      {/* Header */}
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell rowSpan='2'>Where</Table.HeaderCell>
-            <Table.HeaderCell rowSpan='2'>Time</Table.HeaderCell>
-            <Table.HeaderCell rowSpan='2'>Numbers</Table.HeaderCell>
-            <Table.HeaderCell colSpan='3'>Food</Table.HeaderCell>
-          </Table.Row>
-          <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Kind</Table.HeaderCell>
-            <Table.HeaderCell>Amount (kg)</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-      
-      {/* Body */}
-        <Table.Body>
-          {this.displayTableBody()}
-        </Table.Body>
+          {/* Header */}
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell rowSpan='2'>Where</Table.HeaderCell>
+                <Table.HeaderCell rowSpan='2'>Time</Table.HeaderCell>
+                <Table.HeaderCell rowSpan='2'>Numbers</Table.HeaderCell>
+                <Table.HeaderCell colSpan='3'>Food</Table.HeaderCell>
+              </Table.Row>
+              <Table.Row>
+                <Table.HeaderCell>Name</Table.HeaderCell>
+                <Table.HeaderCell>Kind</Table.HeaderCell>
+                <Table.HeaderCell>Amount (kg)</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+          
+          {/* Body */}
+            <Table.Body>
+              {this.displayTableBody()}
+            </Table.Body>
 
-      { /* footer */}
+          { /* footer */}
 
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan='6'>
-              <Menu floated='right' pagination>
-                <Menu.Item as='a' icon>
-                  <Icon name='chevron left' />
-                </Menu.Item>
-                {this.displayPages()}
-                <Menu.Item as='a' icon>
-                  <Icon name='chevron right' />
-                </Menu.Item>
-              </Menu>
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
+            <Table.Footer>
+              <Table.Row>
+                <Table.HeaderCell colSpan='6'>
+                  <Menu floated='right' pagination>
+                    <Menu.Item as='a' icon>
+                      <Icon name='chevron left' />
+                    </Menu.Item>
+                    {this.displayPages()}
+                    <Menu.Item as='a' icon>
+                      <Icon name='chevron right' />
+                    </Menu.Item>
+                  </Menu>
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Footer>
 
-    </Table>
+        </Table>
       </div>
     )
   }

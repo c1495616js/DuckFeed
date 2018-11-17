@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 
 CREATE TABLE `feed` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL DEFAULT '0',
-  `food_id` bigint(20) NOT NULL DEFAULT '0',
+  `user_id` bigint(20) NOT NULL DEFAULT '0',  
   `park` varchar(20) NOT NULL DEFAULT '',
   `numbers` bigint(20) NOT NULL DEFAULT '0',
   `time` datetime NOT NULL,

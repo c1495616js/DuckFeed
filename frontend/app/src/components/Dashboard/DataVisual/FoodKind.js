@@ -50,6 +50,7 @@ export default class FoodKind extends Component {
     const { data } = this.state
     return (
       <div>
+        <h2>What Kind of Food</h2>
         <HorizontalBar data={data} />
       </div>
     )

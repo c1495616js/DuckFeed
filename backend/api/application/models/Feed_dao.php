@@ -56,6 +56,7 @@ class Feed_dao extends MY_Model {
 			$this -> db -> order_by('total_amount', 'desc');		
 		}
 		
+		
 	}
 
 	function ajax_from_join() {

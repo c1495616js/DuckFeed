@@ -4,7 +4,7 @@ export default class Time extends Component {
   render() {
     return (
       <div>
-        Time
+        Numbers
       </div>
     )
   }

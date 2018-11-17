@@ -6,4 +6,7 @@ body,
   padding: 1em;
 }
 
-
+/* DataTable.js */
+.dataTable {
+  padding: 20px 10px;
+}

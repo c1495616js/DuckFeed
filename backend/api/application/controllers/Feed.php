@@ -63,7 +63,9 @@ class Feed extends MY_Api_Controller {
 			"page_disabled",
 			// food
 			"what_food",
-			"kind_food"
+			"kind_food",
+			// basic
+			"what_time"
 		));
 
 		$limit = $this -> get_post('limit');
