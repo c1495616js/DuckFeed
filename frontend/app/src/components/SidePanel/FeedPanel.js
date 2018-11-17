@@ -33,7 +33,7 @@ class FeedPanel extends Component {
 
 
   fetchMyFeeds = () => {
-    axios.post('http://localhost:8000/index.php/api/list_feed',
+    axios.post('http://localhost:8000/index.php/feed/list_feed',
       qs.stringify({page_disabled:true, user_id: this.state.user.id})
     ).then(r => r.data)
     .then(({ list })=>{

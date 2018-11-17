@@ -15,7 +15,7 @@ export default class DataTable extends Component {
   }
   
   fetchData = () => {
-    axios.post('http://localhost:8000/index.php/api/list_feed',
+    axios.post('http://localhost:8000/index.php/feed/list_feed',
       qs.stringify({page: this.state.page})
     ).then(r => r.data)
     .then(({list}) => {      
