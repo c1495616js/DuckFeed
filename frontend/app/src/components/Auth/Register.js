@@ -33,18 +33,19 @@ export default class Register extends Component {
     }
   }
 
-isFormEmpty = ({ name, email, password, passwordConfirmation}) => {
-  return !name.length || !email.length || !password.length || !passwordConfirmation.length
-}
-
-isPasswordValid = ({password, passwordConfirmation}) => {
-  if(password.length < 6 || passwordConfirmation.length < 6){
-    return false;
-  }else if(password !== passwordConfirmation){
-    return false;
+  isFormEmpty = ({ name, email, password, passwordConfirmation}) => {
+    return !name.length || !email.length || !password.length || !passwordConfirmation.length
   }
-  return true;
-}
+
+  isPasswordValid = ({password, passwordConfirmation}) => {
+    if(password.length < 6 || passwordConfirmation.length < 6){
+      return false;
+    }else if(password !== passwordConfirmation){
+      return false;
+    }
+    return true;
+  }
+
   displayErrors = errors => errors.map((error, i)=> <p key={i}>{error.message}</p>);
 
   handleChange = event => {    

@@ -66,6 +66,8 @@ class Users extends MY_Api_Controller {
           unset($user -> password);
           $res['user'] = $user;
           $res['token'] = jwt_helper::create($user_id);
+        }else{
+          $error_code[] = 'email_or_password_is_wrong';
         }
       }else{
         $error_code[] = 'user_not_found';

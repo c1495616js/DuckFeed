@@ -4,27 +4,26 @@ import moment from 'moment';
 import axios from 'axios';
 import qs from 'qs';
 
-import { Menu, Icon, Modal, Form, Input, Button, Label } from 'semantic-ui-react'
+import { Menu, Icon, Modal, Form, Input, Button, Label, Message } from 'semantic-ui-react'
 import { DateTimeInput } from 'semantic-ui-calendar-react';
 
 const initFeedState = {
   /// basic
-  park: 'Test Park',  
+  park: '',  
   time: moment().format('DD/MM/YYYY HH:mm'),
-  numbers: 5,
+  numbers: 1,
   // food
-  name: 'food name',
-  kind: 'food kind',
-  amount: 2.5,
+  name: '',
+  kind: '',
+  amount: 0,
 }
 class FeedPanel extends Component {
-  state = {
-    
+  state = {    
     user: this.props.currentUser,
     feeds: [],
     ...Object.assign({}, initFeedState),
-    modal: false,
-    firstLoad: true
+    modal: false,    
+    errors: [],
   }
 
   componentDidMount(){
@@ -72,11 +71,49 @@ class FeedPanel extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    if(this.isFormValid(this.state)){
-      console.log('feed added');
-      this.addFeed();
+    if(!this.isFormValid()) return
+    
+    this.setState({ errors: []}); 
+    this.addFeed();
+    
+  }
+
+
+  // errors
+
+  isFormValid = () => {
+    let errors = [];
+    let error;
+
+    if(this.isFormEmpty(this.state)){
+      // throw errors
+      error = {message: 'Fill in all fields'};
+      this.setState({errors: errors.concat(error)})
+      return false
+    } else if(!this.isPasswordValid(this.state)){
+      // throw errors
+      error = { message: 'Password is invalid'};
+      this.setState({errors:errors.concat(error)});
+    } else {
+      return true;
     }
   }
+
+isFormEmpty = ({ park, time, numbers, name, kind, amount }) => {
+  return !park.length || !time.length || !numbers.length || !name.length || !kind.length || !amount.length
+}
+
+isPasswordValid = ({password, passwordConfirmation}) => {
+  if(password.length < 6 || passwordConfirmation.length < 6){
+    return false;
+  }else if(password !== passwordConfirmation){
+    return false;
+  }
+  return true;
+}
+
+  displayErrors = errors => errors.map((error, i)=> <p key={i}>{error.message}</p>);
+
 
   // input change
   handleChange = event => {    
@@ -91,8 +128,11 @@ class FeedPanel extends Component {
   }
 
 
-  // valify form
-  isFormValid = ({ park, time, numbers, name, kind, amount }) => park && time && numbers && name && kind && amount;
+  handleInputError = (errors, inputName) => {
+    return errors.some(error => error.message.toLowerCase().includes(inputName))
+      ? "error"
+      : "";
+  };
 
   // open the modal
   opneModal = () => {
@@ -105,7 +145,7 @@ class FeedPanel extends Component {
   }
 
   render() {
-    const { feeds, modal } = this.state;
+    const { feeds, modal, errors } = this.state;
 
     return (
       <React.Fragment>
@@ -138,6 +178,7 @@ class FeedPanel extends Component {
                   label="Park Name"
                   name="park"
                   value={this.state.park}
+                  className={this.handleInputError(errors, "park")}
                   onChange={this.handleChange}
                 />                
               </Form.Field>
@@ -162,6 +203,7 @@ class FeedPanel extends Component {
                   name="numbers"
                   value={this.state.numbers}                  
                   onChange={this.handleChange}
+                  min="1"
                 />                
               </Form.Field>
 
@@ -203,6 +245,12 @@ class FeedPanel extends Component {
                 />                
               </Form.Field>
             </Form>
+            {errors.length > 0 && (
+              <Message error>
+                <h3>Error</h3>
+                {this.displayErrors(errors)}
+              </Message>
+            )}
           </Modal.Content>
 
           <Modal.Actions>

@@ -23,7 +23,7 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    if(!this.isFormValid(this.state)) return
+    if(!this.isFormValid()) return
     this.setState({ errors: [], loading: true });
     axios.post(`http://localhost:8000/index.php/users/login`,
       qs.stringify({email: this.state.email, password: this.state.password})
@@ -55,8 +55,24 @@ export default class Login extends Component {
       }) 
   }
 
-  isFormValid = ({ email, password }) => email && password;
-  
+  isFormValid = () => {
+    let errors = [];
+    let error;
+
+    if(this.isFormEmpty(this.state)){
+      // throw errors
+      error = {message: 'Fill in all fields'};
+      this.setState({errors: errors.concat(error)})
+      return false
+    } else {
+      return true;
+    }
+  }
+
+  isFormEmpty = ({ email, password}) => {
+    return !email.length || !password.length;
+  }
+
   handleInputError = (errors, inputName) => {
     return errors.some(error => error.message.toLowerCase().includes(inputName))
       ? "error"
