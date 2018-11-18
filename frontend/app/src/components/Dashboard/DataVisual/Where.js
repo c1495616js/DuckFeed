@@ -12,12 +12,12 @@ const changeData = (d) => {
     labels,
     datasets: [
       {
-        label: `What Time: Total ${allNumbers} ducks`,
-        backgroundColor: 'rgba(52, 152, 219,0.2)',
-        borderColor: 'rgba(52, 152, 219,1)',
+        label: `Where: Total ${allNumbers} ducks`,
+        backgroundColor: 'rgba(155, 89, 182,0.2)',
+        borderColor: 'rgba(155, 89, 182,1)',
         borderWidth: 1,
-        hoverBackgroundColor: 'rgba(52, 152, 219,0.4)',
-        hoverBorderColor: 'rgba(52, 152, 219,1)',
+        hoverBackgroundColor: 'rgba(155, 89, 182,0.4)',
+        hoverBorderColor: 'rgba(155, 89, 182,1)',
         data
       }
     ]
