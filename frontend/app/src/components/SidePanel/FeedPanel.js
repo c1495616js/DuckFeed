@@ -24,6 +24,7 @@ class FeedPanel extends Component {
     ...Object.assign({}, initFeedState),
     modal: false,    
     errors: [],
+    loading: false
   }
 
   componentDidMount(){
@@ -48,11 +49,11 @@ class FeedPanel extends Component {
     const { park, time, numbers, name, kind, amount, user } = this.state;
     
     const newFeed = {
-      park,
+      park: park.toLowerCase(),
       time: moment(time, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mm'),
       numbers,
-      name,
-      kind,
+      name: name.toLowerCase(),
+      kind: kind.toLowerCase(),
       amount,
       user_id: user.id
     }
@@ -60,12 +61,19 @@ class FeedPanel extends Component {
     axios.post('http://localhost:8000/index.php/feed/add_feed',
       qs.stringify(newFeed)
     ).then(()=>{
-          this.setState(Object.assign({}, initFeedState), this.fetchMyFeeds);
+          this.setState(
+            {
+            ...Object.assign({}, initFeedState),
+            loading: false
+            },
+            this.fetchMyFeeds
+          );
           this.closeModal();
           console.log('feed added')
         })
     .catch( err =>{
       console.error(err);
+      this.setState({loading: false});
     })
   }
 
@@ -73,14 +81,12 @@ class FeedPanel extends Component {
     event.preventDefault();
     if(!this.isFormValid()) return
     
-    this.setState({ errors: []}); 
+    this.setState({ errors: [], loading: true}); 
     this.addFeed();
     
   }
 
-
   // errors
-
   isFormValid = () => {
     let errors = [];
     let error;
@@ -90,25 +96,22 @@ class FeedPanel extends Component {
       error = {message: 'Fill in all fields'};
       this.setState({errors: errors.concat(error)})
       return false
-    } else if(!this.isPasswordValid(this.state)){
+    } else if(!this.isAmountValid(this.state)){
       // throw errors
-      error = { message: 'Password is invalid'};
+      error = { message: 'Amount is float number'};
       this.setState({errors:errors.concat(error)});
     } else {
       return true;
     }
   }
 
-isFormEmpty = ({ park, time, numbers, name, kind, amount }) => {
-  return !park.length || !time.length || !numbers.length || !name.length || !kind.length || !amount.length
+isFormEmpty = ({ park, time, name, kind, amount }) => {  
+  return !park.length || !time.length  || !name.length || !kind.length || !amount.length
 }
 
-isPasswordValid = ({password, passwordConfirmation}) => {
-  if(password.length < 6 || passwordConfirmation.length < 6){
-    return false;
-  }else if(password !== passwordConfirmation){
-    return false;
-  }
+isAmountValid = ({amount}) => {
+  // todo
+   
   return true;
 }
 
@@ -145,7 +148,7 @@ isPasswordValid = ({password, passwordConfirmation}) => {
   }
 
   render() {
-    const { feeds, modal, errors } = this.state;
+    const { feeds, modal, errors, loading } = this.state;
 
     return (
       <React.Fragment>
@@ -254,7 +257,13 @@ isPasswordValid = ({password, passwordConfirmation}) => {
           </Modal.Content>
 
           <Modal.Actions>
-            <Button color="green" inverted onClick={this.handleSubmit}>
+            <Button 
+              color="green" 
+              inverted 
+              onClick={this.handleSubmit}
+              disabled={loading}
+              className={loading ? "loading" : ""}
+            >
               <Icon name="checkmark" /> Add
             </Button>
 

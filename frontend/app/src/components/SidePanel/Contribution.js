@@ -40,7 +40,9 @@ export default class Contribution extends Component {
       return (
         <Table.Row key={r.id}>
           <Table.Cell textAlign="center">
-            {index+1}
+            <p className={currentUser.id === r.user_id ? 'ownContribution' : ''}>
+              {index+1}
+            </p>
           </Table.Cell>
           <Table.Cell> 
             <p className={currentUser.id === r.user_id ? 'ownContribution' : ''}>
