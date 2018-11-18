@@ -8,12 +8,6 @@ class UserPanel extends Component {
     user: this.props.currentUser
   }
 
-  // (if using this method, you need to use if null case every time.)
-  // componentDidMount(){
-  //   this.setState({user: this.props.currentUser})
-  // }
-
-
   dropdownOptions = () => [
     {
       key: "user",

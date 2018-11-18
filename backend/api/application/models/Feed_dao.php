@@ -15,7 +15,7 @@ class Feed_dao extends MY_Model {
 		$this -> db -> select('_m.*');
 		$this -> db -> select('fo.name, fo.kind, fo.amount');
 		// join
-		$this -> ajax_from_join();
+		$this -> ajax_from_join($data);
 
 		// search always
 		$this -> search_always($data);
@@ -70,13 +70,25 @@ class Feed_dao extends MY_Model {
 			$this -> db -> group_by('_m.park');
 			$this -> db -> order_by('total_numbers', 'desc');		
 		}
+
+		// user contribution
+		if(!empty($data['contribution'])){
+			$this -> db -> select('COUNT(_m.user_id) as total_cnt');			
+			$this -> db -> select('u.name as user_name');
+			$this -> db -> group_by('_m.user_id');
+			$this -> db -> order_by('total_cnt', 'desc');			
+		}
 	}
 
-	function ajax_from_join() {
+	function ajax_from_join($data) {
 		// join
 		$this -> db -> from("$this->table_name as _m");
 		$this -> db -> join("food fo", "fo.feed_id = _m.id", "left");
 		
+		// contribution
+		if(!empty($data['contribution'])){
+			$this -> db -> join("users u", "u.id = _m.user_id", "left");
+		}
 	}
 
 

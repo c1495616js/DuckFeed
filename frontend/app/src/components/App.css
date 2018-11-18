@@ -10,3 +10,8 @@ body,
 .dataTable {
   padding: 20px 10px;
 }
+
+/* Contribution.js */
+.contribution {
+  background: white;
+}

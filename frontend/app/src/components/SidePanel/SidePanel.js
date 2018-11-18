@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import UserPanel from './UserPanel';
 import FeedPanel from './FeedPanel';
+import Contribution from './Contribution'
 export default class SidePanel extends Component {
   render() {
     const {currentUser} = this.props;
@@ -17,6 +18,7 @@ export default class SidePanel extends Component {
         
         <UserPanel currentUser={currentUser} />
         <FeedPanel currentUser={currentUser} />
+        <Contribution />
       </Menu>
     )
   }
