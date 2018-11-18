@@ -56,7 +56,12 @@ class Feed_dao extends MY_Model {
 			$this -> db -> order_by('total_amount', 'desc');		
 		}
 		
-		
+		if(!empty($data['what_time'])){
+			$this -> db -> select('COUNT(_m.time) as total_cnt');
+			$this -> db -> select('SUBSTRING(_m.time, 12, 5) as what_time');
+			$this -> db -> group_by('TIME(_m.time)');
+			$this -> db -> order_by('what_time', 'asc');
+		}
 	}
 
 	function ajax_from_join() {

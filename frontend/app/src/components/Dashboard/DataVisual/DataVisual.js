@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Image } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 
 import DataPoints from './DataPoints';
 import Food from './Food';
@@ -13,18 +13,19 @@ export default class DataVisual extends Component {
     return (
       <div style={{marginBottom: '15px', padding: '10px'}}>
         <Grid divided='vertically'>
-          {/* basic */}
+          {/* ALL */}
           <Grid.Row>
             <Grid.Column>
-            <DataPoints />
+              <DataPoints />
             </Grid.Column>
           </Grid.Row>
+          {/* basic */}
           <Grid.Row columns={2}>
             <Grid.Column>
-              
+              <Time />
             </Grid.Column>
             <Grid.Column>
-              <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+              <Where />
             </Grid.Column>            
           </Grid.Row>
           {/* food */}
