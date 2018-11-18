@@ -27,6 +27,8 @@ export default class Contribution extends Component {
 
   displayTableCell = () => {
     const { data } = this.state;
+    const { currentUser } = this.props;
+    
     if(!data){
       return (
         <Table.Row>
@@ -34,17 +36,18 @@ export default class Contribution extends Component {
         </Table.Row>
       )
     }
-    return data.map(r => {
+    return data.map((r, index) => {
       return (
-        <Table.Row>
-          <Table.Cell>
-            <Header as='h4' image>                  
-              <Header.Content>                  
-                {r.user_name}
-              </Header.Content>
-            </Header>
+        <Table.Row key={r.id}>
+          <Table.Cell textAlign="center">
+            {index+1}
           </Table.Cell>
-          <Table.Cell>{r.total_cnt}</Table.Cell>
+          <Table.Cell> 
+            <p className={currentUser.id === r.user_id ? 'ownContribution' : ''}>
+              {r.user_name}                      
+            </p>                        
+          </Table.Cell>
+          <Table.Cell textAlign="center">{r.total_cnt}</Table.Cell>
         </Table.Row>
       )
     })
@@ -53,11 +56,13 @@ export default class Contribution extends Component {
   render() {
     return (
       <div className="contribution">
+          <h4>Rank of Contribution</h4>
           <Table basic='very' celled collapsing color="blue">
           <Table.Header>
             <Table.Row>
+              <Table.HeaderCell>Rank</Table.HeaderCell>
               <Table.HeaderCell>User</Table.HeaderCell>
-              <Table.HeaderCell>Contribution</Table.HeaderCell>
+              <Table.HeaderCell>Contribute</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
       

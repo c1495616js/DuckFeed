@@ -18,7 +18,7 @@ export default class SidePanel extends Component {
         
         <UserPanel currentUser={currentUser} />
         <FeedPanel currentUser={currentUser} />
-        <Contribution />
+        <Contribution currentUser={currentUser}/>
       </Menu>
     )
   }

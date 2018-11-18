@@ -12,6 +12,14 @@ body,
 }
 
 /* Contribution.js */
-.contribution {
-  background: white;
+.contribution{
+  color:white !important;
+}
+.contribution th, .contribution td{
+  /* background: white; */
+  color: rgba(255,255,255,.5) !important;
+}
+
+.ownContribution{
+  color:white !important;
 }
