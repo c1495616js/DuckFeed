@@ -12,7 +12,7 @@ const changeData = (d) => {
     labels,
     datasets: [
       {
-        label: `What Time: Total ${allNumbers}`,
+        label: `What Time: Total ${allNumbers} data points`,
         backgroundColor: 'rgba(52, 152, 219,0.2)',
         borderColor: 'rgba(52, 152, 219,1)',
         borderWidth: 1,

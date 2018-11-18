@@ -50,7 +50,7 @@ export default class Where extends Component {
     const { data } = this.state
     return (
       <div>
-        <h2>What Time</h2>
+        <h2>What Park</h2>
         <HorizontalBar data={data} />
       </div>
     )

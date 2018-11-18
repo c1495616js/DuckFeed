@@ -56,11 +56,19 @@ class Feed_dao extends MY_Model {
 			$this -> db -> order_by('total_amount', 'desc');		
 		}
 		
+		// what time
 		if(!empty($data['what_time'])){
 			$this -> db -> select('COUNT(_m.time) as total_cnt');
 			$this -> db -> select('SUBSTRING(_m.time, 12, 5) as what_time');
 			$this -> db -> group_by('TIME(_m.time)');
 			$this -> db -> order_by('what_time', 'asc');
+		}
+
+		// where
+		if(!empty($data['where'])){
+			$this -> db -> select('SUM(_m.numbers) as total_numbers', false);
+			$this -> db -> group_by('_m.park');
+			$this -> db -> order_by('total_numbers', 'desc');		
 		}
 	}
 
