@@ -50,40 +50,32 @@ class Search extends Component {
           <h2>Search Bar</h2>
           <Grid >
             <Grid.Row>
-              <Grid.Column width="3">
-                <Segment>
+              <Grid.Column width="3">                
                   <Dropdown 
                     placeholder='Park'
                     fluid multiple search selection 
                     options={parkOptions} 
                     onChange={this.handleParkChange}                
-                  />
-                </Segment>
+                  />                
               </Grid.Column>
               <Grid.Column width="6">
-                <Segment>
-                
-                </Segment>
+                Time
               </Grid.Column>
-              <Grid.Column width="3">
-                <Segment>
+              <Grid.Column width="3"> 
                 <Dropdown 
-                placeholder='Name of Food'
-                fluid multiple search selection                              
-                options={foodOptions} 
-                onChange={this.handleFoodChange}                
-              />
-                </Segment>
+                  placeholder='Name of Food'
+                  fluid multiple search selection                              
+                  options={foodOptions} 
+                  onChange={this.handleFoodChange}                
+                />                
               </Grid.Column>
-              <Grid.Column width="3">
-                <Segment>
+              <Grid.Column width="3">                
                 <Dropdown 
-                placeholder='Kind of Food'
-                fluid multiple search selection 
-                options={foodOptions}
-                onChange={this.handleKindChange}
-              />
-                </Segment>
+                  placeholder='Kind of Food'
+                  fluid multiple search selection 
+                  options={foodOptions}
+                  onChange={this.handleKindChange}
+                />                
               </Grid.Column>
               
             </Grid.Row>      

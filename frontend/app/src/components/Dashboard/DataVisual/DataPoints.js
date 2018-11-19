@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Api from '../../../Api';
 import qs from 'qs';
 import moment from 'moment';
@@ -45,7 +47,7 @@ const colorRanges = {
 };
 
 
-export default class DataPoints extends React.Component {
+class DataPoints extends React.Component {
   state = {
     drawMode: 0,
     data: [],
@@ -57,12 +59,25 @@ export default class DataPoints extends React.Component {
     this.fetchData();
   }
 
-  fetchData = () => {
+  componentWillReceiveProps({ search }) {
+    const p = { 
+      search_park: JSON.stringify(search.park),
+      search_food: JSON.stringify(search.name),
+      search_kind: JSON.stringify(search.kind)
+    };
+    this.fetchData(p);
+  }
+
+  fetchData = (p = {}) => {
     Api.post('feed/list_feed',
-      qs.stringify({page_disabled: true})
+      qs.stringify({...p, page_disabled: true})
     ).then(r => r.data)
     .then(({list}) => {              
-      this.setState({data: changeData(list)})      
+      if(list.length > 0){
+        this.setState({data: changeData(list)})      
+      }else{
+        this.setState({data: []})
+      } 
     })
     .catch( err =>{
       console.error(err);
@@ -121,3 +136,16 @@ export default class DataPoints extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {  
+  if(!state.search.currentSearch){
+    return {
+      search: []
+    }
+  }
+  return {
+    search: state.search.currentSearch,  
+  }
+} 
+
+export default connect(mapStateToProps)(DataPoints);

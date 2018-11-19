@@ -1,23 +1,34 @@
 import React, { Component } from 'react'
 import { Icon, Table, Menu, Segment, Dimmer, Loader } from 'semantic-ui-react'
+import { connect } from 'react-redux';
 
 import Api from '../../Api';
 import qs from 'qs';
-export default class DataTable extends Component {
+class DataTable extends Component {
 
   state = {
     data: null,
     page: 0,
-    pages: 1
+    pages: 1,
+    p: {}
   }
 
   componentDidMount() {
     this.fetchData();
   }
+
+  componentWillReceiveProps({ search }) {    
+    const p = { 
+      search_park: JSON.stringify(search.park),
+      search_food: JSON.stringify(search.name),
+      search_kind: JSON.stringify(search.kind)
+    };
+    this.setState({p}, ()=>this.fetchData(p));    
+  }
   
-  fetchData = () => {
+  fetchData = (p = {}) => {
     Api.post('feed/list_feed',
-      qs.stringify({page: this.state.page, need_pages: true})
+      qs.stringify({...p, page: this.state.page, need_pages: true})
     ).then(r => r.data)
     .then(({list, pages}) => {      
       this.setState({data: list, pages});
@@ -25,7 +36,7 @@ export default class DataTable extends Component {
   }
 
   renewData = () => {
-    this.setState({data: null}, this.fetchData)
+    this.setState({data: null}, ()=>this.fetchData(this.state.p))
   }
 
   // Table Body
@@ -185,3 +196,16 @@ export default class DataTable extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {  
+  if(!state.search.currentSearch){
+    return {
+      search: []
+    }
+  }
+  return {
+    search: state.search.currentSearch,  
+  }
+} 
+
+export default connect(mapStateToProps)(DataTable);
