@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { HorizontalBar } from 'react-chartjs-2';
+import { connect } from 'react-redux';
 
 import Api from '../../../Api';
 import qs from 'qs';
@@ -23,7 +24,7 @@ const changeData = (d) => {
     ]
   }
 }
-export default class Time extends Component {
+class Time extends Component {
 
   state = {
     data:{}
@@ -33,12 +34,25 @@ export default class Time extends Component {
     this.fetchData();
   }
 
-  fetchData = () => {
+  componentWillReceiveProps({ search }) {
+    const p = { 
+      search_park: JSON.stringify(search.park),
+      search_food: JSON.stringify(search.name),
+      search_kind: JSON.stringify(search.kind)
+    };
+    this.fetchData(p);
+  }
+
+  fetchData = (p = {}) => {
     Api.post('feed/list_feed',
-      qs.stringify({page_disabled:true, what_time: true})
+      qs.stringify({...p, page_disabled:true, what_time: true})
     ).then(r => r.data)
     .then(({list}) => {              
-      this.setState({data: changeData(list)})      
+      if(list.length > 0){
+        this.setState({data: changeData(list)})      
+      }else{
+        this.setState({data: {}})
+      } 
     })
     .catch( err =>{
       console.error(err);
@@ -55,3 +69,16 @@ export default class Time extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {  
+  if(!state.search.currentSearch){
+    return {
+      search: []
+    }
+  }
+  return {
+    search: state.search.currentSearch,  
+  }
+} 
+
+export default connect(mapStateToProps)(Time);

@@ -17,3 +17,13 @@ export const clearUser = () => {
   }
 }
 
+/* Search Actions */ 
+
+export const doSearch = search => {
+  return {
+    type: actionTypes.DO_SEARCH,
+    payload: {
+      currentSearch: search
+    }
+  }
+}

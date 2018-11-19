@@ -1,13 +1,46 @@
 import React, { Component } from 'react'
 import { Dropdown, Grid, Segment  } from 'semantic-ui-react';
+import {connect} from 'react-redux'
+import { doSearch } from '../../actions';
 
-const stateOptions = [ { key: 'AL', value: 'AL', text: 'Alabama' }]
+const foodOptions = [ 
+  { key: 's', value: 's', text: 's' },
+  { key: '3', value: '3', text: '3' },
+  { key: '4', value: '4', text: '4' },
+  { key: '5', value: '5', text: '5' },
+]
 
-export default class Search extends Component {
+const parkOptions = [   
+  { key: '3', value: '3', text: '3' },
+  { key: '4', value: '4', text: '4' },
+  { key: '5', value: '5', text: '5' },
+]
+
+class Search extends Component {
   state = {
     park:[],
     name:[],
     kind:[]
+  }
+
+  // handle search
+
+  handleParkChange = (e, {value}) => {
+    this.setState({park: value},
+      () => this.props.doSearch(this.state)
+    )
+  }
+
+  handleFoodChange = (e, {value}) => {
+    this.setState({name: value},
+      () => this.props.doSearch(this.state)
+    )
+  }
+
+  handleKindChange = (e, {value}) => {
+    this.setState({kind: value},
+      () => this.props.doSearch(this.state)
+    )
   }
 
   render() {
@@ -19,7 +52,12 @@ export default class Search extends Component {
             <Grid.Row>
               <Grid.Column width="3">
                 <Segment>
-                  <Dropdown placeholder='Park' fluid multiple search selection options={stateOptions} />
+                  <Dropdown 
+                    placeholder='Park'
+                    fluid multiple search selection 
+                    options={parkOptions} 
+                    onChange={this.handleParkChange}                
+                  />
                 </Segment>
               </Grid.Column>
               <Grid.Column width="6">
@@ -29,12 +67,22 @@ export default class Search extends Component {
               </Grid.Column>
               <Grid.Column width="3">
                 <Segment>
-                  <Dropdown placeholder='Name of Food' fluid multiple search selection options={stateOptions} />
+                <Dropdown 
+                placeholder='Name of Food'
+                fluid multiple search selection                              
+                options={foodOptions} 
+                onChange={this.handleFoodChange}                
+              />
                 </Segment>
               </Grid.Column>
               <Grid.Column width="3">
                 <Segment>
-                  <Dropdown placeholder='Kind of Food' fluid multiple search selection options={stateOptions} />
+                <Dropdown 
+                placeholder='Kind of Food'
+                fluid multiple search selection 
+                options={foodOptions}
+                onChange={this.handleKindChange}
+              />
                 </Segment>
               </Grid.Column>
               
@@ -45,3 +93,5 @@ export default class Search extends Component {
     )
   }
 }
+
+export default connect(null, {doSearch} )(Search)

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { HorizontalBar } from 'react-chartjs-2';
+import { connect } from 'react-redux';
 
 import Api from '../../../Api';
 import qs from 'qs';
@@ -23,7 +24,7 @@ const changeData = (d) => {
     ]
   }
 }
-export default class Food extends Component {
+class Food extends Component {
 
   state = {
     data:{}
@@ -33,12 +34,25 @@ export default class Food extends Component {
     this.fetchData();
   }
 
-  fetchData = () => {
+  componentWillReceiveProps({ search }) {
+    const p = { 
+      search_park: JSON.stringify(search.park),
+      search_food: JSON.stringify(search.name),
+      search_kind: JSON.stringify(search.kind)
+    };
+    this.fetchData(p);
+  }
+
+  fetchData = (p = {}) => {
     Api.post('feed/list_feed',
-      qs.stringify({page_disabled:true, what_food: true})
+      qs.stringify({...p, page_disabled:true, what_food: true})
     ).then(r => r.data)
-    .then(({list}) => {              
-      this.setState({data: changeData(list)})      
+    .then(({list}) => {
+      if(list.length > 0){
+        this.setState({data: changeData(list)})      
+      }else{
+        this.setState({data: {}})
+      }      
     })
     .catch( err =>{
       console.error(err);
@@ -47,6 +61,7 @@ export default class Food extends Component {
 
   render() {
     const { data } = this.state
+    
     return (
       <div>
         <h2>What Food</h2>
@@ -55,3 +70,16 @@ export default class Food extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {  
+  if(!state.search.currentSearch){
+    return {
+      search: []
+    }
+  }
+  return {
+    search: state.search.currentSearch,  
+  }
+} 
+
+export default connect(mapStateToProps)(Food);

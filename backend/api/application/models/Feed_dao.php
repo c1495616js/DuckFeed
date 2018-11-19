@@ -93,6 +93,55 @@ class Feed_dao extends MY_Model {
 			$this -> db -> group_by('_m.user_id');
 			$this -> db -> order_by('total_cnt', 'desc');			
 		}
+
+		// Search
+		
+		if(!empty($data['search_park'])){
+			$search_park = json_decode($data['search_park'], true);
+			if(count($search_park) > 0){
+				$this -> db -> group_start();
+					foreach($search_park as $idx => $each){
+						if($idx == 0){
+							$this -> db -> where('_m.park', $each);	
+						}else{
+							$this -> db -> or_where('_m.park', $each);
+						}
+					}
+				$this -> db -> group_end();
+			}
+			
+		}
+
+		if(!empty($data['search_food'])){
+			$search_food = json_decode($data['search_food'], true);
+			if(count($search_food) > 0){
+				$this -> db -> group_start();
+					foreach($search_food as $idx => $each){
+						if($idx == 0){
+							$this -> db -> where('fo.name', $each);	
+						}else{
+							$this -> db -> or_where('fo.name', $each);
+						}
+					}
+				$this -> db -> group_end();
+			}
+		}
+		
+		if(!empty($data['search_kind'])){
+			$search_kind = json_decode($data['search_kind'], true);
+			if(count($search_kind) > 0){
+				$this -> db -> group_start();
+					foreach($search_kind as $idx => $each){
+						if($idx == 0){
+							$this -> db -> where('fo.kind', $each);	
+						}else{
+							$this -> db -> or_where('fo.kind', $each);
+						}
+					}
+				$this -> db -> group_end();
+			}	
+		}
+
 	}
 
 	function ajax_from_join($data) {
