@@ -134,14 +134,22 @@ class MY_Api_Controller extends MY_Base_Controller {
 	}
 
 	public function jwt_auth(){
+		$res = array();
 		$valid = false;
+		if(!empty(apache_request_headers()['authorization'])){
+			$token = apache_request_headers()['authorization']; 
+			if(jwt_helper::validate($token)){
+				return $valid = true;
+			}
+		}
 		if(!empty(apache_request_headers()['Authorization'])){
 			$token = apache_request_headers()['Authorization']; 
 			if(jwt_helper::validate($token)){
 				return $valid = true;
 			}
-		}
-		$this -> to_json(array("error_code"=> "Authorization Error"));    
+		}		
+		$res["error_code"] = "Authorization Error";
+		$this -> to_json($res);    
 		return $valid;
 	}
 
