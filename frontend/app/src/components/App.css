@@ -23,3 +23,12 @@ body,
 .ownContribution{
   color:white !important;
 }
+
+/* DataTable.js */
+.currentPage {
+  color: blue !important;
+}
+
+.pageDisabled {
+  cursor: no-drop !important;
+}

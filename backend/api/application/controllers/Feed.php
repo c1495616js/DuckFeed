@@ -70,7 +70,8 @@ class Feed extends MY_Api_Controller {
 			"what_time",
 			"where",
 			// contribution
-			"contribution"
+			"contribution",
+			"need_pages"
 		));
 
 		$limit = $this -> get_post('limit');
@@ -87,6 +88,12 @@ class Feed extends MY_Api_Controller {
 
 		$list = $this -> dao -> query_all($data);
 		$res['list'] = $list;
+
+		if(!empty($data['need_pages'])){
+			$data['page_disabled'] = true;
+			$res['pages'] = $this -> dao -> count_feed_pages($data); 
+		}
+		
 		$this -> to_json($res);
 	}
 

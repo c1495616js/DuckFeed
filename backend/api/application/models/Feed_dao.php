@@ -21,10 +21,25 @@ class Feed_dao extends MY_Model {
 		$this -> search_always($data);
 
 		// order
-		$this -> db -> order_by('_m.time', 'desc');
+		// $this -> db -> order_by('_m.time', 'desc');
 		// query results
 		$query = $this -> db -> get();
 		return $query -> result();
+	}
+
+	function count_feed_pages($data){	
+		$this -> db -> select('_m.id');	
+		// join
+		$this -> ajax_from_join($data);
+
+		// search always
+		$this -> search_always($data);
+
+		$cnt = $this->db->count_all_results();
+		$limit = $data['limit'];
+		$pages = ceil($cnt / $limit);
+
+		return $pages;
 	}
 
 	function search_always($data) {
