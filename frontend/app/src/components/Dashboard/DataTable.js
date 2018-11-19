@@ -120,7 +120,7 @@ export default class DataTable extends Component {
   }
 
   changePage = (page) => {
-    if(isNaN(page)) return;
+    if(isNaN(page) || page < 0 || page >= this.state.pages) return;
     this.setState({page}, this.renewData);    
   }
 
