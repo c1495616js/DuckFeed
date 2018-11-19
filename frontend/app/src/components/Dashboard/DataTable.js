@@ -17,7 +17,7 @@ export default class DataTable extends Component {
   
   fetchData = () => {
     Api.post('feed/list_feed',
-      qs.stringify({page: this.state.page, need_pages: true, limit:1})
+      qs.stringify({page: this.state.page, need_pages: true})
     ).then(r => r.data)
     .then(({list, pages}) => {      
       this.setState({data: list, pages});

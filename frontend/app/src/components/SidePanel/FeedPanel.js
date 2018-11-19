@@ -103,7 +103,7 @@ class FeedPanel extends Component {
       return false
     } else if(!this.isAmountValid(this.state)){
       // throw errors
-      error = { message: 'Amount is float number'};
+      error = { message: 'Amount is float number and greater than zero'};
       this.setState({errors:errors.concat(error)});
     } else {
       return true;
@@ -114,10 +114,8 @@ isFormEmpty = ({ park, time, name, kind, amount }) => {
   return !park.length || !time.length  || !name.length || !kind.length || !amount.length
 }
 
-isAmountValid = ({amount}) => {
-  // todo
-   
-  return true;
+isAmountValid = ({amount}) => {  
+  return !isNaN(amount) && amount > 0;
 }
 
   displayErrors = errors => errors.map((error, i)=> <p key={i}>{error.message}</p>);

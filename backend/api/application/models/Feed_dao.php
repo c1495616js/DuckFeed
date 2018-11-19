@@ -21,7 +21,7 @@ class Feed_dao extends MY_Model {
 		$this -> search_always($data);
 
 		// order
-		// $this -> db -> order_by('_m.time', 'desc');
+		$this -> db -> order_by('_m.time', 'desc');
 		// query results
 		$query = $this -> db -> get();
 		return $query -> result();
