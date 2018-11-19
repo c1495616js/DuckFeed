@@ -128,6 +128,7 @@ export default class DataTable extends Component {
     const{ page, pages } = this.state;
     return (
       <div className="dataTable">
+        <Segment>                  
           <h1>Data Table</h1>
           <Table celled structured>
 
@@ -178,8 +179,8 @@ export default class DataTable extends Component {
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Footer>
-
-        </Table>
+          </Table>
+        </Segment>
       </div>
     )
   }

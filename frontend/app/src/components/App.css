@@ -32,3 +32,8 @@ body,
 .pageDisabled {
   cursor: no-drop !important;
 }
+
+/* Search.js */
+.search {
+  padding: 10px;
+}
