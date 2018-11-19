@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
-import { Grid, Form, Segment, Button, Header, Message, Icon} from 'semantic-ui-react'
-
-import axios from 'axios';
+import React, { Component } from 'react';
+import { Grid, Form, Segment, Button, Header, Message, Icon} from 'semantic-ui-react';
+import Api from '../../Api';
 import qs from 'qs';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 
 export default class Login extends Component {
@@ -25,11 +24,11 @@ export default class Login extends Component {
     event.preventDefault();
     if(!this.isFormValid()) return
     this.setState({ errors: [], loading: true });
-    axios.post(`http://localhost:8000/index.php/users/login`,
+    Api.post(`users/login`,
       qs.stringify({email: this.state.email, password: this.state.password})
       )
       .then(r => r.data)
-      .then(r => {        
+      .then(r => {              
         if(r.error_code){
           console.error(r.error_code);
           const err = {"message" : r.error_code.join()};
@@ -41,6 +40,7 @@ export default class Login extends Component {
         }else{
           console.log('login succeed');
           localStorage.setItem('ACCESS_TOKEN', r.token);
+          Api.defaults.headers.common['Authorization'] = r.token;
           this.setState({ loading: false });
           this.props.setUser(r.user);
           this.props.history.push('/');          

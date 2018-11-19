@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import Api from '../../../Api';
 import qs from 'qs';
 import moment from 'moment';
 
@@ -58,11 +58,10 @@ export default class DataPoints extends React.Component {
   }
 
   fetchData = () => {
-    axios.post('http://localhost:8000/index.php/feed/list_feed',
+    Api.post('feed/list_feed',
       qs.stringify({page_disabled: true})
     ).then(r => r.data)
-    .then(({list}) => {
-      console.log(list);        
+    .then(({list}) => {              
       this.setState({data: changeData(list)})      
     })
     .catch( err =>{

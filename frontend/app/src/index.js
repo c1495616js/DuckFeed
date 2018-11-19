@@ -6,7 +6,8 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Spinner from './Spinner';
 import qs from 'qs';
-import axios from 'axios';
+// import axios from 'axios';
+import Api from './Api';
 import * as serviceWorker from './serviceWorker';
 import {
   BrowserRouter as Router,
@@ -38,14 +39,14 @@ class Root extends React.Component {
     
     if(token){
       // this.props.setUser(user);
-      axios.post('http://localhost:8000/index.php/users/check_token',
+      Api.post('users/check_token',
         qs.stringify({token})
       ).then(r => r.data)
       .then(r => {
         console.log(r)
         if(r.valid){ 
           console.log('user valid');
-          this.props.setUser(r.user);         
+          this.props.setUser(r.user);           
           this.props.history.push('/');
         }else{
           this.props.history.push('/login');

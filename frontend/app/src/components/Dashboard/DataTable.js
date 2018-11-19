@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Icon, Table, Menu } from 'semantic-ui-react'
 
-import axios from 'axios';
+import Api from '../../Api';
 import qs from 'qs';
 export default class DataTable extends Component {
 
@@ -15,7 +15,7 @@ export default class DataTable extends Component {
   }
   
   fetchData = () => {
-    axios.post('http://localhost:8000/index.php/feed/list_feed',
+    Api.post('feed/list_feed',
       qs.stringify({page: this.state.page})
     ).then(r => r.data)
     .then(({list}) => {      

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Grid, Form, Segment, Button, Header, Message, Icon} from 'semantic-ui-react'
-import axios from 'axios';
+import Api from '../../Api';
 import qs from "qs";
 import { Link } from 'react-router-dom'
 
@@ -56,7 +56,7 @@ export default class Register extends Component {
     event.preventDefault();
     if(!this.isFormValid()) return
     this.setState({ errors: [], loading: true });
-    axios.post('http://localhost:8000/index.php/users/signup',
+    Api.post('users/signup',
       qs.stringify({name: this.state.name, email: this.state.email, password: this.state.password})
     )
       .then(r => r.data)
@@ -71,6 +71,7 @@ export default class Register extends Component {
           });
         }else{
           localStorage.setItem('ACCESS_TOKEN', r.token);
+          Api.defaults.headers.common['Authorization'] = r.token;
           this.setState({ loading: false });
           this.props.setUser(r.user);
           this.props.history.push('/')

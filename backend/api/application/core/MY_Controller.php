@@ -127,9 +127,22 @@ class MY_Api_Controller extends MY_Base_Controller {
 	function __construct() {
 		parent::__construct();
 
+		// cors
 		header('Access-Control-Allow-Origin: *');
-		header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-		header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
+		header("Access-Control-Allow-Methods: GET, POST, OPTIONS, Authorization");
+		header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding, Authorization");
+	}
+
+	public function jwt_auth(){
+		$valid = false;
+		if(!empty(apache_request_headers()['Authorization'])){
+			$token = apache_request_headers()['Authorization']; 
+			if(jwt_helper::validate($token)){
+				return $valid = true;
+			}
+		}
+		$this -> to_json(array("error_code"=> "Authorization Error"));    
+		return $valid;
 	}
 
 	public function get_member_city_district($member_id)

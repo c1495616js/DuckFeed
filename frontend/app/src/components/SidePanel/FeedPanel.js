@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import moment from 'moment';
-import axios from 'axios';
+import Api from '../../Api';
 import qs from 'qs';
 
 import { Menu, Icon, Modal, Form, Input, Button, Label, Message } from 'semantic-ui-react'
@@ -33,10 +33,15 @@ class FeedPanel extends Component {
 
 
   fetchMyFeeds = () => {
-    axios.post('http://localhost:8000/index.php/feed/list_feed',
+    Api.post('feed/list_feed',
       qs.stringify({page_disabled:true, user_id: this.state.user.id})
     ).then(r => r.data)
-    .then(({ list })=>{
+    .then(({ list, error_code })=>{
+      if(error_code === 'Authorization Error'){
+        window.location.reload();        
+        return;
+      }
+      console.log('list:', list)
       this.setState({ feeds: list });          
     })
     .catch( err =>{
@@ -58,7 +63,7 @@ class FeedPanel extends Component {
       user_id: user.id
     }
    
-    axios.post('http://localhost:8000/index.php/feed/add_feed',
+    Api.post('feed/add_feed',
       qs.stringify(newFeed)
     ).then(()=>{
           this.setState(

@@ -32,6 +32,7 @@ class Users extends MY_Api_Controller {
 		}else{
       $user = $this -> dao -> find_by('email', $data['email']);
       if(empty($user)){
+        $data['password'] = md5($data['password']);
         $user_id = $this -> dao -> insert($data);
         $user = $this -> dao -> find_by_id($user_id);
         unset($user -> password);
@@ -60,7 +61,7 @@ class Users extends MY_Api_Controller {
       $user = $this -> dao -> find_by('email', $email);
       if(!empty($user)){
         // check if password correct
-        if($user -> password == $password){
+        if($user -> password == md5($password)){
           $user_id = $user -> id;
           $user = $this -> dao -> find_by_id($user_id);
           unset($user -> password);

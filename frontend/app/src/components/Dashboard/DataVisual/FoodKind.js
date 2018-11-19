@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { HorizontalBar } from 'react-chartjs-2';
 
-import axios from 'axios';
+import Api from '../../../Api';
 import qs from 'qs';
 
 const changeData = (d) => {  
@@ -34,11 +34,10 @@ export default class FoodKind extends Component {
   }
 
   fetchData = () => {
-    axios.post('http://localhost:8000/index.php/feed/list_feed',
+    Api.post('feed/list_feed',
       qs.stringify({page_disabled:true, kind_food: true})
     ).then(r => r.data)
-    .then(({list}) => {
-      console.log(list);        
+    .then(({list}) => {              
       this.setState({data: changeData(list)})      
     })
     .catch( err =>{

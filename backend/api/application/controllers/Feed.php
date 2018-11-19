@@ -11,6 +11,7 @@ class Feed extends MY_Api_Controller {
 	// user add data
 	public function add_feed()
 	{
+		if(!$this -> jwt_auth()) return;
 		$res = array();
 		$res['success'] = true;
 		$error_code = array();
@@ -54,6 +55,7 @@ class Feed extends MY_Api_Controller {
 
 	// get feed data
 	public function list_feed() {
+		if(!$this -> jwt_auth()) return;
 		$res = array();		
 		$res['success'] = true;
 

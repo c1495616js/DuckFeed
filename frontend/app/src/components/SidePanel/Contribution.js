@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios';
+import Api from '../../Api';
 import qs from 'qs';
-import { Header, Table } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 
 export default class Contribution extends Component {
 
@@ -14,7 +14,7 @@ export default class Contribution extends Component {
   }
 
   fetchData = () => {
-    axios.post('http://localhost:8000/index.php/feed/list_feed',
+    Api.post('feed/list_feed',
       qs.stringify({contribution: true})
     ).then(r => r.data)
     .then(({list}) => {              
