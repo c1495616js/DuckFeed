@@ -49,7 +49,11 @@ export default class Contribution extends Component {
               {r.user_name}                      
             </p>                        
           </Table.Cell>
-          <Table.Cell textAlign="center">{r.total_cnt}</Table.Cell>
+          <Table.Cell textAlign="center">
+            <p className={currentUser.id === r.user_id ? 'ownContribution' : ''}>
+              {r.total_cnt}                      
+            </p> 
+          </Table.Cell>
         </Table.Row>
       )
     })
