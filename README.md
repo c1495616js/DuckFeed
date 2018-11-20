@@ -1,3 +1,61 @@
+# DuckFeed
+
+## Link
+
+### [AWS Application](www)
+
+### [Git Repository](https://github.com/c1495616js/DuckFeed)
+
+
+## Approach to the problem
+
+- Google search for images how to report on data. And realize that using Data Visualization and with searching function are better.
+- In order to understand what user will submit data, I create Login and Signup. We can connect to the user and maybe give them credits for their contribution. And I want to develop the application to have chatting function so that users can communicate about feeding ducks.
+- For setting a repeating schedule, I use crontab.
+
+
+## Technologies Chosen (and why)
+
+> Database: MySQL
+- Familiar with.
+- Easily combined with Codeigniter.
+
+
+> Api Server: Codeigniter
+
+- Familiar with.
+- There are more useful functions from my previous work experience, so that I can inherit from it.
+
+> Frontend: React.js
+
+- Familiar with, because I use this more often in my side projects.
+- Better for data store management and showing data reactively.
+- As a JavaScript Enthusiast myself.
+
+> Docker, Docker-Compose
+- Easily deploy to AWS and develop without installing many packages on local machine.
+
+## High-Level Component Diagram
+
+[Link](https://www.draw.io/#G1fyPlR5_pVBQkLjgzuf9vyfdt1Lgshr7m)
+
+![](https://i.imgur.com/2Jc3Lui.png)
+
+
+## Database Model Diagram
+
+[Link](https://www.draw.io/#G1HGbTUZxRoovAeFATl4EQNUopSLnp7Wkd)
+
+![](https://i.imgur.com/wsCmnue.png)
+
+
+
+## How Many Hours Spent
+
+- Roughly 23 hours
+
+
+
 ```
 docker exec -it CONTAINER-ID mysql -uroot -p
 

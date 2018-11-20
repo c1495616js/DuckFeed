@@ -5,8 +5,8 @@ WORKDIR /srv/app
 
 COPY package.json /srv/app
 
-RUN npm install --silent
+RUN npm install
 
 COPY . /srv/app
 
-RUN npm run build
+CMD [ "npm", "start" ]

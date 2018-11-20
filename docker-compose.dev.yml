@@ -41,15 +41,15 @@ services:
     build: ./frontend/app      
     ports:
       - 3000:3000
-    environment:
-      - NODE_ENV=production
     volumes:
       - ./frontend/app/src:/srv/app/src
       - ./frontend/app/public:/srv/app/public
     depends_on:
-      - api    
+      - api
+    links:
+      - api
     restart: always
-    command: npm run server
+    command: npm run start
 
 ####################
 # Setup Caddy container

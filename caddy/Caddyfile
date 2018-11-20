@@ -1,0 +1,6 @@
+http://localhost {
+  log / stdout "{host} {upstream}"
+  errors stdout
+
+  proxy / app:3000
+}
