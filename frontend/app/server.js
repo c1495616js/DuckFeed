@@ -7,6 +7,7 @@ app.set('port', 3000);
 
 //tell express that we want to use the www folder
 //for our static assets
+
 app.use(express.static(__dirname + '/build'));
 
 // Listen for requests

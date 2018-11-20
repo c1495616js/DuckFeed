@@ -4,7 +4,7 @@ import axios from 'axios';
 let Api = axios;
 
 if(process.env.NODE_ENV === 'production'){
-  const baseURL = 'http://localhost:8000/index.php/';
+  const baseURL = 'duckfeed.c1495616.com:8000/index.php/';
   Api = axios.create({
   baseURL
   });

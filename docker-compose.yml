@@ -47,7 +47,9 @@ services:
       - ./frontend/app/src:/srv/app/src
       - ./frontend/app/public:/srv/app/public
     depends_on:
-      - api    
+      - api 
+    links:
+      - api   
     restart: always
     command: npm run server
 

@@ -130,7 +130,7 @@ class MY_Api_Controller extends MY_Base_Controller {
 		// cors
 		header('Access-Control-Allow-Origin: *');
 		header("Access-Control-Allow-Methods: GET, POST, OPTIONS, Authorization");
-		header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding, Authorization");
+		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Content-Length, Accept-Encoding, Authorization");
 	}
 
 	public function jwt_auth(){
