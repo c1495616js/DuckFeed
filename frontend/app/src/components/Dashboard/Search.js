@@ -3,24 +3,21 @@ import { Dropdown, Grid, Segment } from 'semantic-ui-react';
 import {connect} from 'react-redux'
 import { doSearch } from '../../actions';
 
-const foodOptions = [ 
-  { key: 's', value: 's', text: 's' },
-  { key: '3', value: '3', text: '3' },
-  { key: '4', value: '4', text: '4' },
-  { key: '5', value: '5', text: '5' },
-]
+import Api from '../../Api';
 
-const parkOptions = [   
-  { key: '3', value: '3', text: '3' },
-  { key: '4', value: '4', text: '4' },
-  { key: '5', value: '5', text: '5' },
-]
 
 class Search extends Component {
   state = {
     park:[],
     name:[],
-    kind:[]
+    kind:[],
+    parkOptions:[],
+    foodOptions:[],
+    kindOptions:[]
+  }
+
+  componentDidMount() {
+    this.fetchOptionData()
   }
 
   componentWillReceiveProps({ search }) {    
@@ -31,6 +28,23 @@ class Search extends Component {
         kind:[]
       })
     }
+  }
+
+  fetchOptionData = () => {
+    Api.post('feed/list_all_options').then(r => r.data)
+    .then(({error_code, option_park, option_food, option_kind}) => {
+      if(error_code === 'Authorization Error'){                
+        return;
+      }
+      this.setState({
+        parkOptions: option_park.map(j => ({ key: j.id, value: j.park, text: j.park })),
+        foodOptions: option_food.map(j => ({ key: j.id, value: j.name, text: j.name })),
+        kindOptions: option_kind.map(j => ({ key: j.id, value: j.kind, text: j.kind })),
+      })
+    })
+    .catch( err =>{
+      console.error(err);
+    })   
   }
 
   // handle search
@@ -54,14 +68,14 @@ class Search extends Component {
   }
 
   render() {
-    const { park, name, kind } = this.state;
+    const { park, name, kind, parkOptions, foodOptions, kindOptions } = this.state;
     return (
       <div className="search">
         <Segment>
           <h2>Search Bar</h2>
-          <Grid >
+          <Grid columns="equal">
             <Grid.Row>
-              <Grid.Column width="3">                
+              <Grid.Column>                
                   <Dropdown 
                     placeholder='Park'
                     fluid multiple search selection 
@@ -69,11 +83,8 @@ class Search extends Component {
                     value={park}
                     onChange={this.handleParkChange}                
                   />                
-              </Grid.Column>
-              <Grid.Column width="6">
-                Time
-              </Grid.Column>
-              <Grid.Column width="3"> 
+              </Grid.Column>              
+              <Grid.Column> 
                 <Dropdown 
                   placeholder='Name of Food'
                   fluid multiple search selection                              
@@ -82,11 +93,11 @@ class Search extends Component {
                   onChange={this.handleFoodChange}                
                 />                
               </Grid.Column>
-              <Grid.Column width="3">                
+              <Grid.Column>                
                 <Dropdown 
                   placeholder='Kind of Food'
                   fluid multiple search selection 
-                  options={foodOptions}
+                  options={kindOptions}
                   value={kind}
                   onChange={this.handleKindChange}
                 />                

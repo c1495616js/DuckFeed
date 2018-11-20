@@ -102,4 +102,30 @@ class Feed extends MY_Api_Controller {
 		$this -> to_json($res);
 	}
 
+	public function list_all_options() {
+		if(!$this -> jwt_auth()) return;
+		$res = array();		
+		$res['success'] = true;
+
+		$data = array(
+			"page_disabled" => true,
+			"limit" => 10,
+			"page" => 0
+		);
+
+		// park
+		$where_data = array_merge($data, array("where" => true));
+		$res['option_park'] = $this -> dao -> query_all($where_data);
+		// food name
+		$food_data = array_merge($data, array("what_food" => true));
+		$res['option_food'] = $this -> dao -> query_all($food_data);
+		// food kind
+		$kind_data = array_merge($data, array("kind_food" => true));
+		$res['option_kind'] = $this -> dao -> query_all($kind_data);
+
+		
+		$this -> to_json($res);
+
+	}
+
 }
