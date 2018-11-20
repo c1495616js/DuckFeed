@@ -56,27 +56,27 @@ services:
 ####################
 # Setup Caddy container
 ####################
-  caddy:
-    build:
-      context: github.com/abiosoft/caddy-docker.git
-      args:
-        version: 0.10.12
-    volumes:
-      - type: bind
-        source: ./caddy/data/sites/
-        target: /var/www/sites/
-      - type: bind
-        source: ./caddy/data/caddypath/
-        target: /var/caddy/
-      - type: bind
-        source: ./caddy/Caddyfile
-        target: /etc/Caddyfile
-    environment:
-      CADDYPATH: "/var/caddy"      
-    ports:
-      - "443:443"
-      - "80:80"     
-    restart: always
+  # caddy:
+  #   build:
+  #     context: github.com/abiosoft/caddy-docker.git
+  #     args:
+  #       version: 0.10.12
+  #   volumes:
+  #     - type: bind
+  #       source: ./caddy/data/sites/
+  #       target: /var/www/sites/
+  #     - type: bind
+  #       source: ./caddy/data/caddypath/
+  #       target: /var/caddy/
+  #     - type: bind
+  #       source: ./caddy/Caddyfile
+  #       target: /etc/Caddyfile
+  #   environment:
+  #     CADDYPATH: "/var/caddy"      
+  #   ports:
+  #     - "443:443"
+  #     - "80:80"     
+  #   restart: always
   
 volumes:
     db_data:

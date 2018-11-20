@@ -38,7 +38,8 @@ services:
 ####################
 
   app:
-    build: ./frontend/app      
+    context: ./frontend/app
+    dockerfile: dev.Dockerfile
     ports:
       - 3000:3000
     volumes:
