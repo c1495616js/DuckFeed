@@ -73,7 +73,7 @@ class Search extends Component {
     return (
       <div className="search">
         <Segment>
-          <h2>Search Bar</h2>
+          <h2>Search</h2>
           <Grid columns="equal">
             <Grid.Row>
               <Grid.Column>                
