@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Dropdown, Grid, Segment } from 'semantic-ui-react';
 import {connect} from 'react-redux'
 import { doSearch } from '../../actions';
@@ -21,12 +21,13 @@ class Search extends Component {
   }
 
   componentWillReceiveProps({ search }) {    
-    if(Array.isArray(search) && search.length == 0){
+    if(Array.isArray(search) && search.length === 0){
       this.setState({
         park:[],
         name:[],
         kind:[]
-      })
+      });
+      this.fetchOptionData();
     }
   }
 

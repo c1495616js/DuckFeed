@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
 import Api from '../../Api';
 import qs from 'qs';
 import { Table } from 'semantic-ui-react';
 
-export default class Contribution extends Component {
+class Contribution extends Component {
 
   state = {
     data: null
@@ -11,6 +13,12 @@ export default class Contribution extends Component {
 
   componentDidMount() {
     this.fetchData();
+  }
+
+  componentWillReceiveProps({ search }) {    
+    if(Array.isArray(search) && search.length === 0){      
+      this.fetchData();
+    }
   }
 
   fetchData = () => {
@@ -80,3 +88,16 @@ export default class Contribution extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {  
+  if(!state.search.currentSearch){
+    return {
+      search: []
+    }
+  }
+  return {
+    search: state.search.currentSearch,  
+  }
+}
+
+export default connect(mapStateToProps)(Contribution)
