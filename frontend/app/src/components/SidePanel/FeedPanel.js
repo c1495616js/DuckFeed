@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { doSearch } from '../../actions';
+
 import moment from 'moment';
 import Api from '../../Api';
 import qs from 'qs';
@@ -38,7 +40,7 @@ class FeedPanel extends Component {
     ).then(r => r.data)
     .then(({ list, error_code })=>{
       if(error_code === 'Authorization Error'){
-        window.location.reload();        
+                
         return;
       }
       console.log('list:', list)
@@ -71,10 +73,14 @@ class FeedPanel extends Component {
             ...Object.assign({}, initFeedState),
             loading: false
             },
-            this.fetchMyFeeds
+            ()=>{
+              this.fetchMyFeeds();
+              // this.props.doSearch(this.props.search);
+              this.props.doSearch([]);
+            }
           );
-          this.closeModal();
-          console.log('feed added')
+          this.closeModal();          
+          console.log('feed added')          
         })
     .catch( err =>{
       console.error(err);
@@ -280,4 +286,6 @@ isAmountValid = ({amount}) => {
   }
 }
 
-export default connect()(FeedPanel)
+ 
+
+export default connect(null, { doSearch })(FeedPanel)

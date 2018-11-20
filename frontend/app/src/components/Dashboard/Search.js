@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dropdown, Grid, Segment  } from 'semantic-ui-react';
+import { Dropdown, Grid, Segment } from 'semantic-ui-react';
 import {connect} from 'react-redux'
 import { doSearch } from '../../actions';
 
@@ -23,6 +23,16 @@ class Search extends Component {
     kind:[]
   }
 
+  componentWillReceiveProps({ search }) {    
+    if(Array.isArray(search) && search.length == 0){
+      this.setState({
+        park:[],
+        name:[],
+        kind:[]
+      })
+    }
+  }
+
   // handle search
 
   handleParkChange = (e, {value}) => {
@@ -44,6 +54,7 @@ class Search extends Component {
   }
 
   render() {
+    const { park, name, kind } = this.state;
     return (
       <div className="search">
         <Segment>
@@ -54,7 +65,8 @@ class Search extends Component {
                   <Dropdown 
                     placeholder='Park'
                     fluid multiple search selection 
-                    options={parkOptions} 
+                    options={parkOptions}
+                    value={park}
                     onChange={this.handleParkChange}                
                   />                
               </Grid.Column>
@@ -65,7 +77,8 @@ class Search extends Component {
                 <Dropdown 
                   placeholder='Name of Food'
                   fluid multiple search selection                              
-                  options={foodOptions} 
+                  options={foodOptions}
+                  value={name}
                   onChange={this.handleFoodChange}                
                 />                
               </Grid.Column>
@@ -74,6 +87,7 @@ class Search extends Component {
                   placeholder='Kind of Food'
                   fluid multiple search selection 
                   options={foodOptions}
+                  value={kind}
                   onChange={this.handleKindChange}
                 />                
               </Grid.Column>
@@ -86,4 +100,15 @@ class Search extends Component {
   }
 }
 
-export default connect(null, {doSearch} )(Search)
+const mapStateToProps = state => {  
+  if(!state.search.currentSearch){
+    return {
+      search: []
+    }
+  }
+  return {
+    search: state.search.currentSearch,  
+  }
+}
+
+export default connect(mapStateToProps, { doSearch } )(Search)

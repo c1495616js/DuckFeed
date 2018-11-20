@@ -23,7 +23,7 @@ class DataTable extends Component {
       search_food: JSON.stringify(search.name),
       search_kind: JSON.stringify(search.kind)
     };
-    this.setState({p}, ()=>this.fetchData(p));    
+    this.setState({p, page:0}, ()=>this.fetchData(p));    
   }
   
   fetchData = (p = {}) => {
