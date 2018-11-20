@@ -5,7 +5,7 @@
 
 ## Links
 
-### [AWS Application](ec2-18-191-224-169.us-east-2.compute.amazonaws.com)
+### [AWS Application](http://ec2-18-191-224-169.us-east-2.compute.amazonaws.com)
 
 ### [Git Repository](https://github.com/c1495616js/DuckFeed)
 
