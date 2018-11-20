@@ -6,7 +6,7 @@ import moment from 'moment';
 import Api from '../../Api';
 import qs from 'qs';
 
-import { Menu, Icon, Modal, Form, Input, Button, Label, Message } from 'semantic-ui-react'
+import { Menu, Icon, Modal, Form, Input, Button, Label, Message, Checkbox, Segment } from 'semantic-ui-react'
 import { DateTimeInput } from 'semantic-ui-calendar-react';
 
 const initFeedState = {
@@ -18,6 +18,7 @@ const initFeedState = {
   name: '',
   kind: '',
   amount: 0,
+  is_regular: 0
 }
 class FeedPanel extends Component {
   state = {    
@@ -39,8 +40,7 @@ class FeedPanel extends Component {
       qs.stringify({page_disabled:true, user_id: this.state.user.id})
     ).then(r => r.data)
     .then(({ list, error_code })=>{
-      if(error_code === 'Authorization Error'){
-                
+      if(error_code === 'Authorization Error'){                
         return;
       }
       console.log('list:', list)
@@ -53,7 +53,7 @@ class FeedPanel extends Component {
 
 
   addFeed = () => {
-    const { park, time, numbers, name, kind, amount, user } = this.state;
+    const { park, time, numbers, name, kind, amount, user, is_regular } = this.state;
     
     const newFeed = {
       park: park.toLowerCase(),
@@ -62,7 +62,8 @@ class FeedPanel extends Component {
       name: name.toLowerCase(),
       kind: kind.toLowerCase(),
       amount,
-      user_id: user.id
+      user_id: user.id,
+      is_regular
     }
    
     Api.post('feed/add_feed',
@@ -90,11 +91,9 @@ class FeedPanel extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    if(!this.isFormValid()) return
-    
+    if(!this.isFormValid()) return    
     this.setState({ errors: [], loading: true}); 
-    this.addFeed();
-    
+    this.addFeed();    
   }
 
   // errors
@@ -116,24 +115,26 @@ class FeedPanel extends Component {
     }
   }
 
-isFormEmpty = ({ park, time, name, kind, amount }) => {  
-  return !park.length || !time.length  || !name.length || !kind.length || !amount.length
-}
+  isFormEmpty = ({ park, time, name, kind, amount }) => {  
+    return !park.length || !time.length  || !name.length || !kind.length || !amount.length
+  }
 
-isAmountValid = ({amount}) => {  
-  return !isNaN(amount) && amount > 0;
-}
+  isAmountValid = ({amount}) => {  
+    return !isNaN(amount) && amount > 0;
+  }
 
   displayErrors = errors => errors.map((error, i)=> <p key={i}>{error.message}</p>);
 
 
   // input change
-  handleChange = event => {    
+  handleChange = (event, data) => {    
+    if(data && data.name === 'is_regular'){      
+      this.setState({is_regular: data.checked ? 1 : 0});
+    }
     this.setState({[event.target.name]: event.target.value});
   }
 
-  handleTimeChange = (event, {name, value}) => {
-    console.log(name)
+  handleTimeChange = (event, {name, value}) => {    
     if (this.state.hasOwnProperty(name)) {
       this.setState({ [name]: value });
     }
@@ -170,20 +171,21 @@ isAmountValid = ({amount}) => {
           </Menu.Item>          
         </Menu.Menu> 
         
-        {/* Add Channel Modal */}
+        {/* Add Feed Modal */}
 
         <Modal basic open={modal} onClose={this.closeModal}>
           <Modal.Header><Icon name="paw" /> Add Feed</Modal.Header>
           <Modal.Content>
             <Form onSubmit={this.handleSubmit}>
+            
+             {/* Basic */}
               
               <div style={{margin:'15px 0'}}>              
                 <Label color='teal' tag>
                   <Icon name="book" /><span>Basic Information</span>
                 </Label>
               </div>                 
-            
-              
+                          
               <Form.Field>
                 <Input 
                   fluid
@@ -203,8 +205,7 @@ isAmountValid = ({amount}) => {
                   iconPosition="left"
                   closeOnMouseLeave={false}
                   onChange={this.handleTimeChange} 
-                />
-                           
+                />                           
               </Form.Field>
 
               <Form.Field>
@@ -219,12 +220,23 @@ isAmountValid = ({amount}) => {
                 />                
               </Form.Field>
 
-              {/* */}
+              <Form.Field>
+                <Segment>
+                  <Checkbox 
+                    label='Is Repeating' 
+                    
+                    name="is_regular"                    
+                    onChange={this.handleChange}
+                  />
+                </Segment>
+              </Form.Field>
 
+              {/* Food */}
+              
               <div style={{margin:'15px 0'}}>
-                <Label  color='red' tag>
-                <Icon name="food" /><span>Food Information</span>
-                </Label>
+              <Label  color='red' tag>
+              <Icon name="food" /><span>Food Information</span>
+              </Label>
               </div>   
               
               <Form.Field>

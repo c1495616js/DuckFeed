@@ -44,7 +44,7 @@ class DataTable extends Component {
     const { data } = this.state;    
     return !data ? (
       <Table.Row>
-        <Table.Cell colSpan='6'>
+        <Table.Cell colSpan='7'>
           <Segment>
             <Dimmer active>
               <Loader size='mini'></Loader>
@@ -58,6 +58,7 @@ class DataTable extends Component {
             <Table.Cell>{r.park}</Table.Cell>
             <Table.Cell>{r.time}</Table.Cell>
             <Table.Cell textAlign='right'>{r.numbers}</Table.Cell>
+            <Table.Cell>{r.is_regular === '1' ? 'Yes' : 'No'}</Table.Cell>
             <Table.Cell textAlign='center'>{r.name}</Table.Cell>
             <Table.Cell textAlign='center'>{r.kind}</Table.Cell>
             <Table.Cell textAlign='center'>{r.amount}</Table.Cell>                        
@@ -149,6 +150,7 @@ class DataTable extends Component {
                 <Table.HeaderCell rowSpan='2'>Where</Table.HeaderCell>
                 <Table.HeaderCell rowSpan='2'>Time</Table.HeaderCell>
                 <Table.HeaderCell rowSpan='2'>Numbers</Table.HeaderCell>
+                <Table.HeaderCell rowSpan='2'>Repeating</Table.HeaderCell>
                 <Table.HeaderCell colSpan='3'>Food</Table.HeaderCell>
               </Table.Row>
               <Table.Row>
@@ -167,7 +169,7 @@ class DataTable extends Component {
 
             <Table.Footer>
               <Table.Row>
-                <Table.HeaderCell colSpan='6'>
+                <Table.HeaderCell colSpan='7'>
                   <Menu floated='right' pagination>
                     <Menu.Item 
                       as='a' 

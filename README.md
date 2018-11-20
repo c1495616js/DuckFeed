@@ -11,10 +11,12 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 
 CREATE TABLE `feed` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL DEFAULT '0',  
+  `user_id` bigint(20) NOT NULL DEFAULT '0',
   `park` varchar(20) NOT NULL DEFAULT '',
   `numbers` bigint(20) NOT NULL DEFAULT '0',
   `time` datetime NOT NULL,
+  `is_regular` tinyint(11) NOT NULL DEFAULT '0',
+  `had_regular` tinyint(11) NOT NULL DEFAULT '0',
   `insert_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -20,7 +20,7 @@ class Feed extends MY_Api_Controller {
 			"park",
 			"numbers",
 			"time",
-			"user_id"
+			"user_id",			
 		));
 
 		$food_data = $this -> get_posts(array(
@@ -44,6 +44,7 @@ class Feed extends MY_Api_Controller {
 		if(count($error_code) > 0){
 			$res['error_code'] = $error_code;
 		}else{
+			$feed_data['is_regular'] = $this -> get_post('is_regular');
 			$feed_id = $this -> dao -> insert($feed_data);
 			$food_data['feed_id'] = $feed_id;
 			$this -> food_dao -> insert($food_data);			
