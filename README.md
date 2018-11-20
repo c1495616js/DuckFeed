@@ -1,64 +1,58 @@
 # DuckFeed
 
-## Link
+![](https://i.imgur.com/zlsMudm.png)
 
-### [AWS Application](www)
+
+## Links
+
+### [AWS Application](ec2-18-191-224-169.us-east-2.compute.amazonaws.com)
 
 ### [Git Repository](https://github.com/c1495616js/DuckFeed)
 
+----
 
-## Approach to the problem
+## Install in Local machine
 
-- Google search for images how to report on data. And realize that using Data Visualization and with searching function are better.
-- In order to understand what user will submit data, I create Login and Signup. We can connect to the user and maybe give them credits for their contribution. And I want to develop the application to have chatting function so that users can communicate about feeding ducks.
-- For setting a repeating schedule, I use crontab.
-
-
-## Technologies Chosen (and why)
-
-> Database: MySQL
-- Familiar with.
-- Easily combined with Codeigniter.
-
-
-> Api Server: Codeigniter
-
-- Familiar with.
-- There are more useful functions from my previous work experience, so that I can inherit from it.
-
-> Frontend: React.js
-
-- Familiar with, because I use this more often in my side projects.
-- Better for data store management and showing data reactively.
-- As a JavaScript Enthusiast myself.
-
-> Docker, Docker-Compose
-- Easily deploy to AWS and develop without installing many packages on local machine.
-
-## High-Level Component Diagram
-
-[Link](https://www.draw.io/#G1fyPlR5_pVBQkLjgzuf9vyfdt1Lgshr7m)
-
-![](https://i.imgur.com/2Jc3Lui.png)
-
-
-## Database Model Diagram
-
-[Link](https://www.draw.io/#G1HGbTUZxRoovAeFATl4EQNUopSLnp7Wkd)
-
-![](https://i.imgur.com/wsCmnue.png)
-
-
-
-## How Many Hours Spent
-
-- Roughly 23 hours
-
-
+#### git
 
 ```
-docker exec -it CONTAINER-ID mysql -uroot -p
+$ git clone https://github.com/c1495616js/DuckFeed
 
+$ cd DuckFeed
+```
+
+#### run docker-compose
+```
+$ docker-compose  --file ./docker-compose.dev.yml up
+```
+
+#### create tables to the db container
+
+```
+$ docker exec -it CONTAINER-ID mysql -uroot -p
+
+// password: admin
+```
+for example:
+
+```
+$ docker exec -it 5bb43 mysql -uroot -p
+```
+
+![](https://i.imgur.com/fnVxZSE.png)
+
+
+
+In mysql command:
+```
+use api;
+```
+
+![](https://i.imgur.com/Kbh7QFu.png)
+
+create tables
+
+```
 CREATE TABLE IF NOT EXISTS `ci_sessions` (
      `id` varchar(128) NOT NULL,
      `ip_address` varchar(45) NOT NULL,
@@ -96,3 +90,19 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
+
+#### crontab
+
+- For setting a repeating schedule
+
+```
+$ crontab -e
+```
+
+```
+0 4 * * * curl -X GET http://18.191.224.169:8000/index.php/feed/check_repeating
+```
+
+#### Connect
+
+connect to http://localhost:3000
