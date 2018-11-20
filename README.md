@@ -105,4 +105,6 @@ $ crontab -e
 
 #### Connect
 
-connect to http://localhost:3000
+Connect to http://localhost:3000
+
+And Regist a new user.
