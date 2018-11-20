@@ -103,6 +103,7 @@ class Feed extends MY_Api_Controller {
 		$this -> to_json($res);
 	}
 
+	// searchbar options for select-option
 	public function list_all_options() {
 		if(!$this -> jwt_auth()) return;
 		$res = array();		
@@ -127,6 +128,49 @@ class Feed extends MY_Api_Controller {
 		
 		$this -> to_json($res);
 
+	}
+
+	// crontab for repeating schedule
+	public function check_repeating() {
+		$res = array();
+		$res['success'] = true;
+
+		$list = $this -> dao -> find_all_where(array(
+			"is_regular" => 1,
+			"had_regular" => 0
+		));
+
+		foreach($list as $each){
+			$feed_id = $each -> id;
+			$food = $this -> food_dao -> find_by('feed_id', $feed_id);
+			// new time
+			$new_time = new DateTime($each -> time);
+			$new_time = $new_time -> modify('+1 day') -> format('Y-m-d H:i:s');
+			// insert feed
+			$i_data = array(
+				"user_id" => $each -> user_id,
+				"park" => $each -> park,
+				"numbers" => $each -> numbers,
+				"is_regular" => 1,
+				"time" => $new_time
+			);			
+			$res['new_feed_id'] = $new_feed_id = $this -> dao -> insert($i_data);
+
+			// insert food
+			$i_food_data = array(
+				"feed_id" => $new_feed_id,
+				"name" => $food -> name,
+				"kind" => $food -> kind,
+				"amount" => $food -> amount,
+			);
+
+			$res['new_food_id'] = $this -> food_dao -> insert($i_food_data);
+
+			// update old feed had_regular to 1
+			$this -> dao -> update(array("had_regular" => 1), $feed_id);
+		}
+
+		$this -> to_json($res);
 	}
 
 }
