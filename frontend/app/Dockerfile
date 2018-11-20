@@ -9,4 +9,4 @@ RUN npm install --silent
 
 COPY . /srv/app
 
-RUN npm run build
+# RUN npm run build
